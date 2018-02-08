@@ -139,6 +139,8 @@ STATICFILES_DIRS = [
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+ADMINS = (('Walison Filipe', 'walisonfilipe@hotmail.com'),)
+
 DEFAULT_USER_PASSWORD = 'pulso123456'
 
 AUTH_USER_MODEL = 'accounts.User'
