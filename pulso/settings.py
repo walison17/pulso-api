@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'social_django',
+    'django_extensions',
 
     'accounts'
 ]
@@ -141,10 +142,17 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_USER_PASSWORD = 'pulso123456'
 
 AUTH_USER_MODEL = 'accounts.User'
+
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 SOCIAL_AUTH_USER_MODEL = 'accounts.User'
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True

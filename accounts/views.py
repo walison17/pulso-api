@@ -5,13 +5,17 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import serializers
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
 from requests.exceptions import HTTPError
 
 from social_django.utils import psa
+
+from .serializers import UserSerializer
 
 
 class SocialSerializer(serializers.Serializer):
@@ -41,3 +45,10 @@ def get_token(request, backend):
             token, _ = Token.objects.get_or_create(user=user)
             return Response({ 'token': str(token) })
 
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def retrieve_authenticated_user(request):
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)
+    
