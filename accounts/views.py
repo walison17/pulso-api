@@ -23,19 +23,21 @@ class SocialSerializer(serializers.Serializer):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_token(request, backend):
-    try:
-        access_token = request.GET.get('access_token', None)
-        user = request.backend.do_auth(access_token)
-    except HTTPError as e: 
-        return Response(
-            {   
-                'errors': {
-                    'message': 'token inválido'
-                }
-            },
-            status.HTTP_400_BAD_REQUEST 
-        )
-    if user and user.is_active:
-        token, _ = Token.objects.get_or_create(user=user)
-        return Response({ 'token': str(token) })
+    serializer = SocialSerializer(data=request.GET)
+    if serializer.is_valid(raise_exception=True):
+        try:
+            access_token = request.GET.get('access_token', None)
+            user = request.backend.do_auth(access_token)
+        except HTTPError as e: 
+            return Response(
+                {   
+                    'errors': {
+                        'message': 'token inválido'
+                    }
+                },
+                status.HTTP_400_BAD_REQUEST 
+            )
+        if user and user.is_active:
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({ 'token': str(token) })
 

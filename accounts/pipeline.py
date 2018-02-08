@@ -30,8 +30,8 @@ def create_user(backend, details, response, user=None, *args, **kwargs):
 
 def update_user(backend, response, details, user=None, *args, **kwargs):
     """
-    Atualiza os atributos do usuário se houver divergencias entre os dados
-    vindos da Api
+    Atualiza os atributos do usuário quando houver divergencias entre os dados
+    vindos da Api e os dados já armazenados
     """
     pass 
 
