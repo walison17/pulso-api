@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'social_django',
     'django_extensions',
+    'friendship',
 
     'accounts'
 ]
@@ -122,7 +123,7 @@ DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda h: [v.strip() for v in h.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda h: [ v.strip() for v in h.split(',') ])
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

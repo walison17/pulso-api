@@ -1,6 +1,7 @@
 import json
 
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
 
 from rest_framework import serializers
 from rest_framework import status
@@ -14,8 +15,10 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 from requests.exceptions import HTTPError
 
 from social_django.utils import psa
+from friendship.models import Friend, Follow
 
-from .serializers import UserSerializer
+from .models import User
+from .serializers import FriendSerializer, UserSerializer, FriendshipRequestSerializer
 
 
 class SocialSerializer(serializers.Serializer):
@@ -51,4 +54,27 @@ def get_token(request, backend):
 def retrieve_authenticated_user(request):
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@csrf_exempt
+@permission_classes((IsAuthenticated,))
+def add_friend(request):
+    serializer = FriendSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        to_user = get_object_or_404(User, pk=serializer.validated_data['id'])
+        Friend.objects.add_friend(request.user, to_user)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['PUT'])
+@csrf_exempt
+@permission_classes((IsAuthenticated,))
+def update_profile(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        user = request.user
+        user.about = serializer.validated_data['about']
+        user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     

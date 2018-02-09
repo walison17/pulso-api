@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "bcb3258a975895468e1e0dea6d78a6de236d8b24780ab2f1733b62fd4ec37b35"
+            "sha256": "df0d798554f8af9f058d11823764a8b4e1029b422185d65d0061e595643d339a"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -70,6 +70,9 @@
                 "sha256:6fb35133b61e7295d43c1f7added952e5dfe689ae65662d2fb5fe7ea1a397eba"
             ],
             "version": "==1.9.9"
+        },
+        "django2.0": {
+            "git": "git://github.com/adamyala/django-friendship.git"
         },
         "djangorestframework": {
             "hashes": [

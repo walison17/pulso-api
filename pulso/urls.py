@@ -22,5 +22,6 @@ from accounts import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/<str:backend>', views.get_token),
-    path('me/', views.retrieve_authenticated_user)
+    path('me/', views.retrieve_authenticated_user),
+    path('profile/', views.update_profile),
 ]
