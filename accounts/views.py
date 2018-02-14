@@ -9,7 +9,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
 from requests.exceptions import HTTPError
@@ -18,7 +18,7 @@ from social_django.utils import psa
 from friendship.models import Friend, Follow
 
 from .models import User
-from .serializers import FriendSerializer, UserSerializer, FriendshipRequestSerializer
+from .serializers import FriendSerializer, UserSerializer
 
 
 class SocialSerializer(serializers.Serializer):
@@ -49,12 +49,17 @@ def get_token(request, backend):
             return Response({ 'token': str(token) })
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 @permission_classes((IsAuthenticated,))
-def retrieve_authenticated_user(request):
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
-
+def me(request):
+    if request.method == 'GET':
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+    if request.method == 'PUT':
+        serializer = UserSerializer(request.user, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
 @csrf_exempt
@@ -69,12 +74,10 @@ def add_friend(request):
 
 @api_view(['PUT'])
 @csrf_exempt
-@permission_classes((IsAuthenticated,))
+@permission_classes([IsAuthenticated])
 def update_profile(request):
-    serializer = UserSerializer(data=request.data)
+    serializer = UserSerializer(request.user, data=request.data, partial=True)
     if serializer.is_valid(raise_exception=True):
-        user = request.user
-        user.about = serializer.validated_data['about']
-        user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
+

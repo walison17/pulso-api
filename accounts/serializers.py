@@ -29,13 +29,20 @@ class UserSerializer(serializers.ModelSerializer):
             'gender',
         )
 
+
+    def update(self, instance, validated_data):
+        instance.about = validated_data.get('about', instance.about)
+        instance.city = validated_data.get('city', instance.city)
+        instance.state = validated_data.get('state', instance.state)
+        instance.country = validated_data.get('country', instance.country)
+        instance.save()
+        return instance
+
     
 class FriendSerializer(serializers.Serializer):
-    id = serializers.IntegerField() 
+    to_user = UserSerializer(read_only=True)
 
-
-
-class FriendshipRequestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = FriendshipRequest
-        fields = ('viewed',)
+        model = Friend
+        fields = ('to_user', 'created')
+

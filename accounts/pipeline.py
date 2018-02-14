@@ -32,6 +32,14 @@ def update_user(backend, response, details, user=None, *args, **kwargs):
     Atualiza os atributos do usuário quando houver divergencias entre os dados
     vindos da Api e os dados já armazenados
     """
-    pass 
+    if user:
+        location = response['location']['location']
+        user.first_name = response['first_name']
+        user.last_name = response['last_name']
+        user.city = location['city']
+        user.state = location['state']
+        user.country = location['country']
+        user.about = location['about']
+        user.save()
 
 

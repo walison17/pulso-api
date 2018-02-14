@@ -10,3 +10,6 @@ class User(AbstractUser):
     state = models.CharField(max_length=3, null=True)
     country = models.CharField(max_length=20, null=True) 
     
+
+class UserProfile():
+    pass

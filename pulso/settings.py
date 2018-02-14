@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'social_django',
     'django_extensions',
-    'friendship',
+    # 'friendship',
 
     'accounts'
 ]
@@ -139,8 +139,6 @@ STATICFILES_DIRS = [
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-ADMINS = (('Walison Filipe', 'walisonfilipe@hotmail.com'),)
 
 DEFAULT_USER_PASSWORD = 'pulso123456'
 
