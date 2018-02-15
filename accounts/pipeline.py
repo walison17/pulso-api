@@ -20,6 +20,7 @@ def create_user(backend, details, response, user=None, *args, **kwargs):
         city=location['city'],  
         state=location['state'],
         country=location['country'],
+        facebook_url=response['link'],
     )
     return {
         'is_new': True,
@@ -32,14 +33,15 @@ def update_user(backend, response, details, user=None, *args, **kwargs):
     Atualiza os atributos do usuário quando houver divergencias entre os dados
     vindos da Api e os dados já armazenados
     """
+    print(response)
     if user:
         location = response['location']['location']
         user.first_name = response['first_name']
         user.last_name = response['last_name']
+        user.facebook_url = response['link']
         user.city = location['city']
         user.state = location['state']
         user.country = location['country']
-        user.about = location['about']
         user.save()
 
 

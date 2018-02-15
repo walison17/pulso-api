@@ -162,7 +162,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_friends', 'user_about_me', 'user_location']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'locale': 'pt_BR',    
-    'fields': 'id,name,email,gender,about,first_name,last_name,friends,location{location}'
+    'fields': 'id,name,email,gender,about,first_name,last_name,link,friends,location{location}'
 }
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
@@ -174,4 +174,5 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
     'social_core.pipeline.social_auth.associate_by_email',
+    'accounts.pipeline.update_user'
 )

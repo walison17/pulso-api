@@ -13,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name', 
             'last_name', 
             'photo_url', 
+            'facebook_url',
             'gender', 
             'city', 
             'state',
@@ -25,6 +26,8 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'gender',
+            'facebook_url',
+            'photo_url'
         )
 
 

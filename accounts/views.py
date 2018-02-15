@@ -80,3 +80,9 @@ def update_profile(request):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+
+@api_view(['GET'])
+def all_users(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)

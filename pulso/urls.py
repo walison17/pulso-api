@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/<str:backend>', views.get_token),
     path('me/', views.me),
+    path('users/', views.all_users)
 ]
