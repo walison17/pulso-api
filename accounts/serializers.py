@@ -1,8 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from friendship.models import Friend, FriendshipRequest
-
 from .models import User
 
 
@@ -39,10 +37,3 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
     
-class FriendSerializer(serializers.Serializer):
-    to_user = UserSerializer(read_only=True)
-
-    class Meta:
-        model = Friend
-        fields = ('to_user', 'created')
-

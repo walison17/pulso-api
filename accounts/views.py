@@ -15,10 +15,9 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 from requests.exceptions import HTTPError
 
 from social_django.utils import psa
-from friendship.models import Friend, Follow
 
 from .models import User
-from .serializers import FriendSerializer, UserSerializer
+from .serializers import UserSerializer
 
 
 class SocialSerializer(serializers.Serializer):
