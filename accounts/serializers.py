@@ -5,7 +5,8 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    following_count = serializers.SerializerMethodField()
+    following_count = serializers.SerializerMethodField(read_only=True)
+    followers_count = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -21,7 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
             'state',
             'country', 
             'about',
-            'following_count'
+            'following_count',
+            'followers_count'
         )
         read_only_fields = (
             'id',
@@ -31,12 +33,15 @@ class UserSerializer(serializers.ModelSerializer):
             'gender',
             'facebook_url',
             'photo_url',
-            'following_count'
         )
 
 
     def get_following_count(self, obj):
         return obj.following.count()
+
+
+    def get_followers_count(self, obj):
+        return obj.followers.count()
 
 
     def update(self, instance, validated_data):
