@@ -22,4 +22,4 @@ class FollowSerializer(serializers.Serializer):
     def create(self, validated_data):
         follower = validated_data['follower']
         followee = get_object_or_404(User, pk=validated_data['followee_id'])
-        return Follow(from_user=follower, to_user=followee)
+        return Follow.objects.create(from_user=follower, to_user=followee)
