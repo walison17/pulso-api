@@ -6,11 +6,15 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.decorators import (
+    api_view, permission_classes, authentication_classes
+)
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
+from rest_framework import mixins
 
 from requests.exceptions import HTTPError
 
@@ -70,9 +74,7 @@ def update_profile(request):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
-@api_view(['GET'])
-def all_users(request):
-    users = User.objects.all()
-    serializer = UserSerializer(users, many=True)
-    return Response(serializer.data)
+class UserViewSet(ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (AllowAny,)

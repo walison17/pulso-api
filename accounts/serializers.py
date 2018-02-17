@@ -7,6 +7,7 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField(read_only=True)
     followers_count = serializers.SerializerMethodField(read_only=True)
+    followed = serializers.BooleanField(default=False, read_only=True)
 
     class Meta:
         model = User
@@ -23,7 +24,8 @@ class UserSerializer(serializers.ModelSerializer):
             'country', 
             'about',
             'following_count',
-            'followers_count'
+            'followers_count',
+            'followed'
         )
         read_only_fields = (
             'id',
