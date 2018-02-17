@@ -36,7 +36,7 @@ def get_token(request, backend):
             user = request.backend.do_auth(access_token)
         except HTTPError as e: 
             return Response(
-                {   
+                {
                     'errors': {
                         'message': 'token inválido'
                     }
@@ -59,17 +59,7 @@ def me(request):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-@api_view(['POST'])
-@csrf_exempt
-@permission_classes((IsAuthenticated,))
-def add_friend(request):
-    serializer = FriendSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        to_user = get_object_or_404(User, pk=serializer.validated_data['id'])
-        Friend.objects.add_friend(request.user, to_user)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
+        
 
 @api_view(['PUT'])
 @csrf_exempt

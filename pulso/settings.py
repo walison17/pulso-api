@@ -10,10 +10,10 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-import dj_database_url
-from dj_database_url import parse as db_url   
 
+import dj_database_url
 from decouple import config
+from dj_database_url import parse as db_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'django_extensions',
     # 'friendship',
 
-    'accounts'
+    'accounts',
+    'relationships'
 ]
 
 MIDDLEWARE = [
@@ -152,7 +153,9 @@ AUTHENTICATION_BACKENDS = (
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
 }
 
 SOCIAL_AUTH_USER_MODEL = 'accounts.User'
