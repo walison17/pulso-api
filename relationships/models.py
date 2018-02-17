@@ -5,8 +5,16 @@ from django.core.exceptions import ValidationError
 
 
 class Follow(models.Model):
-    from_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='%(class)s_followers')
-    to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='%(class)s_following')
+    from_user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name='%(class)s_followers'
+    )
+    to_user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name='%(class)s_following'
+    )
     created_at = models.DateTimeField(default=timezone.now)
 
 
