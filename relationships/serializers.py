@@ -10,7 +10,7 @@ class FolloweeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'photo_url')
+        fields = ('id', 'first_name', 'last_name', 'photo_url', 'city', 'state')
     
 
 class FollowSerializer(serializers.Serializer):
