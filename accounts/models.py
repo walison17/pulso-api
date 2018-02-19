@@ -4,6 +4,7 @@ from django.conf import settings
 
 from relationships.models import Follow
 
+
 class User(AbstractUser):
     about = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=15, null=True)
@@ -18,13 +19,13 @@ class User(AbstractUser):
         through='relationships.Follow',
         related_name='followers',
     )
+ 
     
-
     def follow(self, user):
         """"Segue um novo usuário"""
         return Follow.objects.create(from_user=self, to_user=user)
 
-    
+ 
     def follows(self, user):
         """Verica se o usuário já segue um outro usuário"""
         pass 

@@ -47,8 +47,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'social_django',
     'django_extensions',
-    # 'friendship',
-
+    ''
     'accounts',
     'relationships'
 ]

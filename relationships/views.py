@@ -35,7 +35,7 @@ class FollowerView(ListAPIView):
 
 
 class UnfollowView(DestroyAPIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     
     def get_queryset(self):
