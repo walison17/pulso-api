@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from rest_framework import mixins
+from rest_framework.decorators import detail_route
 
 from requests.exceptions import HTTPError
 
@@ -22,6 +23,7 @@ from social_django.utils import psa
 
 from .models import User
 from .serializers import UserSerializer
+from relationships.serializers import FolloweeSerializer
 
 
 class SocialSerializer(serializers.Serializer):
@@ -78,3 +80,18 @@ class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
+
+
+    @detail_route(methods=['get'], url_path='following')
+    def friends(self, request, pk=None):
+        """Busca os amigos (usuários seguidos) pelo usuário com o id informado"""
+        user = self.get_object()
+        friends = user.following.all()
+
+        page = self.paginate_queryset(friends)
+        if page is not None:
+            serializer = FolloweeSerializer(friends, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = FolloweeSerializer(friends, many=True)
+        return Response(serializer.data)
