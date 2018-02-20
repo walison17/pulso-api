@@ -95,3 +95,4 @@ class UserViewSet(ReadOnlyModelViewSet):
 
         serializer = FolloweeSerializer(friends, many=True)
         return Response(serializer.data)
+

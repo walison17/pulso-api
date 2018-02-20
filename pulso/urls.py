@@ -13,8 +13,11 @@ router.register(r'users', views.UserViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/<str:backend>', views.get_token),
-    path('me/', views.me),
-    path('me/following/', rel_views.FollowingView.as_view()),
-    path('me/followers/', rel_views.FollowerView.as_view()),
+    path('me/', include([
+        path('', views.me),
+        path('following/', rel_views.FollowingView.as_view()),
+        path('followers/', rel_views.FollowerView.as_view()),
+        path('following/<int:pk>/', rel_views.UnfollowView.as_view()),
+    ])),
     path('', include(router.urls)),
 ]
