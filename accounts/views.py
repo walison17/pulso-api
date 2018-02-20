@@ -2,6 +2,8 @@ import json
 
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank 
 
 from rest_framework import serializers
 from rest_framework import status
@@ -15,7 +17,7 @@ from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from rest_framework import mixins
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, list_route
 
 from requests.exceptions import HTTPError
 
@@ -96,3 +98,20 @@ class UserViewSet(ReadOnlyModelViewSet):
         serializer = FolloweeSerializer(friends, many=True)
         return Response(serializer.data)
 
+
+    
+    @list_route(methods=['get'], url_path='search')
+    def search_user(self, request):
+        vector = SearchVector('first_name', weight='A') + SearchVector('last_name', weight='B') + SearchVector('city', weight='C')
+        query = SearchQuery(request.GET.get('q', None))
+        search_result = User.objects \
+            .annotate(rank=SearchRank(vector, query)) \
+            .order_by('-rank')
+
+        page = self.paginate_queryset(search_result)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(search_result, many=True)
+        return self.get_paginated_response(serializer.data)

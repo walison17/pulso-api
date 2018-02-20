@@ -19,8 +19,8 @@ class User(AbstractUser):
         through='relationships.Follow',
         related_name='followers',
     )
- 
-    
+
+  
     def follow(self, user):
         """"Segue um novo usuário"""
         return Follow.objects.create(from_user=self, to_user=user)

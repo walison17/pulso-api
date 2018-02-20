@@ -23,6 +23,7 @@ djangorestframework = "*"
 django-extensions = "*"
 "django2.0" = {git = "git://github.com/adamyala/django-friendship.git"}
 django-rest-swagger = "*"
+model-mommy = "*"
 
 
 [dev-packages]
