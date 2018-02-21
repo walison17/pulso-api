@@ -24,7 +24,7 @@ from requests.exceptions import HTTPError
 from social_django.utils import psa
 
 from .models import User
-from .serializers import UserSerializer, AuthUserSerializer
+from .serializers import UserSerializer, AuthUserSerializer, FacebookFriendSerializer
 from relationships.serializers import FolloweeSerializer
 
 
@@ -118,7 +118,7 @@ class UserViewSet(ReadOnlyModelViewSet):
 
     
 class FacebookFriendListView(ListAPIView):
-    serializer_class = UserSerializer
+    serializer_class = FacebookFriendSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):

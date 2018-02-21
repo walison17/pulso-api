@@ -63,3 +63,16 @@ class UserSerializer(AuthUserSerializer):
     def get_followed_by_me(self, obj):
         user = self.context['request'].user
         return obj.is_followed_by(user)
+
+
+class FacebookFriendSerializer(serializers.ModelSerializer):
+    followed_by_me = serializers.SerializerMethodField(read_only=True)  
+
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'photo_url', 'followed_by_me',)
+
+    
+    def get_followed_by_me(self, obj):
+        user = self.context['request'].user
+        return obj.is_followed_by(user)
