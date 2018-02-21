@@ -47,10 +47,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'social_django',
     'django_extensions',
-    # 'push_notifications',
+    'push_notifications',
 
     'accounts',
-    'relationships'
+    'relationships',
+    'notifications'
 ]
 
 MIDDLEWARE = [
@@ -179,3 +180,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.associate_by_email',
     'accounts.pipeline.update_user'
 )
+
+
+PUSH_NOTIFICATIONS_SETTINGS = {
+    'FCM_API_KEY': config('FCM_API_KEY'),
+    'UPDATE_ON_DUPLICATE_REG_ID': True
+}
