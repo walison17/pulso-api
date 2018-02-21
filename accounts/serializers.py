@@ -16,7 +16,6 @@ class AuthUserSerializer(serializers.ModelSerializer):
             'first_name', 
             'last_name', 
             'photo_url',
-            'facebook_id', 
             'facebook_url',
             'gender', 
             'city', 

@@ -14,7 +14,7 @@ from rest_framework.decorators import (
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from rest_framework import mixins
 from rest_framework.decorators import detail_route, list_route
@@ -115,3 +115,12 @@ class UserViewSet(ReadOnlyModelViewSet):
 
         serializer = self.get_serializer(search_result, many=True)
         return self.get_paginated_response(serializer.data)
+
+    
+class FacebookFriendListView(ListAPIView):
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        return User.objects.filter(facebook_id__in=user.facebook_friends_ids)

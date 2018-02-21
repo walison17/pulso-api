@@ -7,11 +7,7 @@ def create_user(backend, details, response, user=None, *args, **kwargs):
     """Cria um novo usuário com os dados provenientes da api do facebook"""
     if user:
         return { 'is_new': False }
-    print(response)
     location = response['location']['location']
-    # friends = [user['id'] for user in response['friends']]
-    # print(friends)
-    # print(response)
     user = User.objects.create_user(
         facebook_id=response['id'],
         email=response['email'],
@@ -26,7 +22,7 @@ def create_user(backend, details, response, user=None, *args, **kwargs):
         state=location['state'],
         country=location['country'],
         facebook_url=response['link'],
-        # facebook_friends_ids=[f]
+        facebook_friends_ids=[friend['id'] for friend in resṕmse['friends']['data']]
     )
     return {
         'is_new': True,
@@ -38,7 +34,7 @@ def update_user(backend, response, details, user=None, *args, **kwargs):
     """
     Atualiza os atributos do usuário quando houver divergencias entre os dados
     vindos da Api e os dados já armazenados
-    """
+    """ 
     if user:
         location = response['location']['location']
         user.facebook_id = response['id']
@@ -48,6 +44,7 @@ def update_user(backend, response, details, user=None, *args, **kwargs):
         user.city = location['city']
         user.state = location['state']
         user.country = location['country']
+        user.facebook_friends_ids = [friend['id'] for friend in response['friends']['data']]
         user.save()
 
 

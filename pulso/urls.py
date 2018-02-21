@@ -14,10 +14,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/<str:backend>', views.get_token),
     path('me/', include([
+        path('', views.me),
         path('following/', rel_views.FollowingView.as_view()),
         path('followers/', rel_views.FollowerView.as_view()),
         path('following/<int:pk>/', rel_views.UnfollowView.as_view()),
-        path('', views.me),
+        path('facebook_friends/', views.FacebookFriendListView.as_view()),
     ])),
     path('', include(router.urls)),
 ]
