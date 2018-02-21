@@ -4,10 +4,9 @@ from rest_framework import serializers
 from .models import User
 
 
-class UserSerializer(serializers.ModelSerializer):
+class AuthUserSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField(read_only=True)
     followers_count = serializers.SerializerMethodField(read_only=True)
-    followed_by_me = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -16,7 +15,8 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'first_name', 
             'last_name', 
-            'photo_url', 
+            'photo_url',
+            'facebook_id', 
             'facebook_url',
             'gender', 
             'city', 
@@ -25,7 +25,6 @@ class UserSerializer(serializers.ModelSerializer):
             'about',
             'following_count',
             'followers_count',
-            'followed_by_me'
         )
         read_only_fields = (
             'id',
@@ -45,11 +44,6 @@ class UserSerializer(serializers.ModelSerializer):
     def get_followers_count(self, obj):
         return obj.followers.count()
 
-    
-    def get_followed_by_me(self, obj):
-        user = self.context['request'].user
-        return obj.is_followed_by(user)
-
 
     def update(self, instance, validated_data):
         instance.about = validated_data.get('about', instance.about)
@@ -60,3 +54,13 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
     
+class UserSerializer(AuthUserSerializer):
+    followed_by_me = serializers.SerializerMethodField(read_only=True)    
+
+    class Meta(AuthUserSerializer.Meta):
+        fields = AuthUserSerializer.Meta.fields + ('followed_by_me',)
+
+    
+    def get_followed_by_me(self, obj):
+        user = self.context['request'].user
+        return obj.is_followed_by(user)

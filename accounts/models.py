@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
 
 from relationships.models import Follow
 
 
 class User(AbstractUser):
+    facebook_id = models.IntegerField(null=True)
     about = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=15, null=True)
     city = models.CharField(max_length=50, null=True)
@@ -19,6 +21,7 @@ class User(AbstractUser):
         through='relationships.Follow',
         related_name='followers',
     )
+    facebook_friends_ids = ArrayField(models.IntegerField(), blank=True, null=True)
 
 
     def follow(self, user):

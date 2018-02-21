@@ -24,7 +24,7 @@ from requests.exceptions import HTTPError
 from social_django.utils import psa
 
 from .models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, AuthUserSerializer
 from relationships.serializers import FolloweeSerializer
 
 
@@ -60,10 +60,10 @@ def get_token(request, backend):
 @permission_classes((IsAuthenticated,))
 def me(request):
     if request.method == 'GET':
-        serializer = UserSerializer(request.user)
+        serializer = AuthUserSerializer(request.user)
         return Response(serializer.data)
     if request.method == 'PUT':
-        serializer = UserSerializer(request.user, data=request.data, partial=True)
+        serializer = AuthUserSerializer(request.user, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
