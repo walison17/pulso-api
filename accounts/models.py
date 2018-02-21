@@ -20,12 +20,17 @@ class User(AbstractUser):
         related_name='followers',
     )
 
-  
+
     def follow(self, user):
         """"Segue um novo usuário"""
         return Follow.objects.create(from_user=self, to_user=user)
 
  
     def follows(self, user):
-        """Verica se o usuário já segue um outro usuário"""
-        pass 
+        """Verifica se o usuário já segue um outro usuário"""
+        return Follow.objects.filter(from_user=self, to_user=user).exists()
+
+    
+    def is_followed_by(self, user):
+        """Verifica se o usuário é seguido por um outro usuário"""
+        return Follow.objects.filter(from_user=user, to_user=self).exists()

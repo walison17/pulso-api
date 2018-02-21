@@ -81,7 +81,7 @@ def update_profile(request):
 class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
 
     @detail_route(methods=['get'], url_path='following')
