@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f7e2f25a8869db16a1c5b23c91130a3ece578d2c627caff39dfb4166fa5e283b"
+            "sha256": "cbf2a186d0ec897d0ad2654dd4acfe4f7ef3afebc9ef1ab79ddbad938e9b8cc0"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -155,10 +155,10 @@
         },
         "django-extensions": {
             "hashes": [
-                "sha256:f642e79990f365e82a7c906c91b0dabea533cdcdf2df7059a732e1e8648f2fa3",
-                "sha256:6fb35133b61e7295d43c1f7added952e5dfe689ae65662d2fb5fe7ea1a397eba"
+                "sha256:7c0db3b1a249bcfdd50c4314a617f8fb0aec979e2c01466e68ec0d60337313a9",
+                "sha256:308e4aa61b6accc249c67a0fb99daef6f8b233179dd50a52f408fae4f58b71ee"
             ],
-            "version": "==1.9.9"
+            "version": "==2.0.0"
         },
         "django-push-notifications": {
             "hashes": [
@@ -189,6 +189,13 @@
                 "sha256:64cf1ee26d1cde3c73c6d7d107f835fed7c6a2904aef9eac223d57ad800c43fa"
             ],
             "version": "==0.13"
+        },
+        "fcm-django": {
+            "hashes": [
+                "sha256:0d0fd50f1eeda58980d01092d5538d819293264e172a86366562caee32215d63",
+                "sha256:f06843c7930ff647c85efc9c42c0d47df1d016e53cf51ad6894ab6a299af0d8c"
+            ],
+            "version": "==0.2.13"
         },
         "gunicorn": {
             "hashes": [
@@ -324,6 +331,13 @@
             ],
             "version": "==2.18"
         },
+        "pyfcm": {
+            "hashes": [
+                "sha256:436609f815dd5783ba15f33c5034d5380c57577c201d957d8470fa0b1289e6d6",
+                "sha256:dd66f890ea20178eaaa274d781809b672187d76b10f56cf7cbe4d54c8b6a01b0"
+            ],
+            "version": "==1.4.3"
+        },
         "pyjwt": {
             "hashes": [
                 "sha256:a4e5f1441e3ca7b382fd0c0b416777ced1f97c64ef0c33bfa39daf38505cfd2f",
@@ -376,6 +390,13 @@
             "hashes": [
                 "sha256:50a8ae2ce8273e384895972b56193c7409601a66d4975774c60c2aed869639ca",
                 "sha256:883ac416757eada6d3d07054ec7092ac21c7f35cb1d2cf82faf205637081f468"
+            ],
+            "version": "==0.8.0"
+        },
+        "requests-toolbelt": {
+            "hashes": [
+                "sha256:42c9c170abc2cacb78b8ab23ac957945c7716249206f90874651971a4acff237",
+                "sha256:f6a531936c6fa4c6cfce1b9c10d5c4f498d16528d2a54a22ca00011205a187b5"
             ],
             "version": "==0.8.0"
         },

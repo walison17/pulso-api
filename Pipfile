@@ -25,6 +25,7 @@ django-extensions = "*"
 django-rest-swagger = "*"
 model-mommy = "*"
 django-push-notifications = "*"
+fcm-django = "*"
 
 
 [dev-packages]

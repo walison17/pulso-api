@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'social_django',
     'django_extensions',
-    'push_notifications',
+    'fcm_django',
 
     'accounts',
     'relationships',
@@ -182,7 +182,6 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 
-PUSH_NOTIFICATIONS_SETTINGS = {
-    'FCM_API_KEY': config('FCM_API_KEY'),
-    'UPDATE_ON_DUPLICATE_REG_ID': True
+FCM_DJANGO_SETTINGS = {
+    'FCM_SERVER_KEY': config('FCM_API_KEY')
 }
