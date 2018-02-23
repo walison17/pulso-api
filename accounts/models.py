@@ -4,9 +4,10 @@ from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
 
 from relationships.models import Follow
+from notifications.models import FirebaseDeviceMixin
 
 
-class User(AbstractUser):
+class User(AbstractUser, FirebaseDeviceMixin):
     facebook_id = models.BigIntegerField(null=True)
     about = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=15, null=True)
