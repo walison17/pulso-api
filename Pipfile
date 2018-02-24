@@ -32,3 +32,4 @@ fcm-django = "*"
 
 "flake8" = "*"
 werkzeug = "*"
+ipython = "*"
