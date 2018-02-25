@@ -170,6 +170,10 @@ SOCIAL_AUTH_PIPELINE = (
     'accounts.pipeline.update_user'
 )
 
+FCM_DJANGO_SETTINGS = {
+    'FCM_SERVER_KEY': config('FCM_SERVER_KEY'),
+}
+
 RAVEN_CONFIG = {
     'dsn': 'https://c786ab8eecc84e228938bd23d6a2fa56:318e6943b2dc4a37a4f9a27a01539280@sentry.io/293664',
 }
