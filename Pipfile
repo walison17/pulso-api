@@ -26,6 +26,8 @@ django-rest-swagger = "*"
 model-mommy = "*"
 django-push-notifications = "*"
 fcm-django = "*"
+raven = "*"
+factory-boy = "*"
 
 
 [dev-packages]
@@ -33,3 +35,4 @@ fcm-django = "*"
 "flake8" = "*"
 werkzeug = "*"
 ipython = "*"
+django-extensions = "*"
