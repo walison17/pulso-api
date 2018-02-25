@@ -22,7 +22,7 @@ def create_user(backend, details, response, user=None, *args, **kwargs):
         state=location['state'],
         country=location['country'],
         facebook_url=response['link'],
-        facebook_friends_ids=[friend['id'] for friend in resṕmse['friends']['data']]
+        facebook_friends_ids=[friend['id'] for friend in response['friends']['data']]
     )
     return {
         'is_new': True,
