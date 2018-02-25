@@ -172,9 +172,6 @@ SOCIAL_AUTH_PIPELINE = (
 
 RAVEN_CONFIG = {
     'dsn': 'https://c786ab8eecc84e228938bd23d6a2fa56:318e6943b2dc4a37a4f9a27a01539280@sentry.io/293664',
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
-    'release': raven.fetch_git_sha(os.path.abspath(BASE_DIR)),
 }
 
 LOGGING = {
