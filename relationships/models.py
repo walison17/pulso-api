@@ -27,7 +27,6 @@ class Follow(models.Model):
         if self.from_user == self.to_user:
             raise ValidationError('O usuário não pode seguir ele mesmo.')
         super(Follow, self).save(*args, **kwargs)
-        new_follower.send_robust(Follow, follower=self.from_user, followee=self.to_user)
 
 
 new_follower = Signal(providing_args=['follower', 'followee'])

@@ -137,6 +137,7 @@
                 "sha256:702a91ade2968a82beb0db1e0766a6a273f33d4616a6ce8cde475d8e09853b20",
                 "sha256:24d7f2f94f7f3cb6061acb215685e5125fbcdc40a857eff9de22518820b0a4f4"
             ],
+            "markers": "python_version >= '3.0'",
             "version": "==0.5.0"
         },
         "dj-database-url": {
@@ -206,10 +207,10 @@
         },
         "fcm-django": {
             "hashes": [
-                "sha256:0d0fd50f1eeda58980d01092d5538d819293264e172a86366562caee32215d63",
-                "sha256:f06843c7930ff647c85efc9c42c0d47df1d016e53cf51ad6894ab6a299af0d8c"
+                "sha256:231bd8adb12da26da7cdc9aa1ee2252571516ea0f74b131510b7f975f801f750",
+                "sha256:e8af987b5bd7399d7ad2e5e3402868e4e061eec30f5538ea92d64344c140f5cc"
             ],
-            "version": "==0.2.13"
+            "version": "==0.2.14"
         },
         "gunicorn": {
             "hashes": [

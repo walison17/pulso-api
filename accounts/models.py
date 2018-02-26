@@ -5,6 +5,7 @@ from django.conf import settings
 
 from relationships.models import Follow
 from notifications.models import FirebaseDeviceMixin
+from notifications.signals import user_was_followed
 
 
 class User(AbstractUser, FirebaseDeviceMixin):
@@ -27,6 +28,7 @@ class User(AbstractUser, FirebaseDeviceMixin):
 
     def follow(self, user):
         """"Segue um novo usuário"""
+        user_was_followed.send_robust(sender=self.__class__, follower=self, followee=user)
         return Follow.objects.create(from_user=self, to_user=user)
 
  

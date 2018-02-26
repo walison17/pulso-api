@@ -1,11 +1,14 @@
-from django.dispatch import receiver
+from django.dispatch import receiver, Signal
 
-from relationships.models import Follow, new_follower
+from fcm_django.models import FCMDevice
 
+user_was_followed = Signal(providing_args=['followee', 'follower'])
 
-@receiver(new_follower)
-def send_notification(sender, follower, followee, **kwargs):
-    followee.devices.exists():
-        followee.devices.send_notification(
+@receiver(user_was_followed)
+def notify_new_follower(sender, follower, followee, **kwargs):
+    devices = FCMDevice.objects.filter(user=followee)
+    if devices.exists():
+        devices.send_message(
             title=f'{follower.first_name} seguiu você'
         )
+        
