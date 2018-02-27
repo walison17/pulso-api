@@ -25,6 +25,10 @@ class User(AbstractUser, FirebaseDeviceMixin):
     )
     facebook_friends_ids = ArrayField(models.BigIntegerField(), blank=True, null=True)
 
+    @property
+    def name(self):
+        return f'{self.first_name} {self.last_name}'
+
 
     def follow(self, user):
         """"Segue um novo usuário"""
