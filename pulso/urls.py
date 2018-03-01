@@ -7,12 +7,13 @@ from fcm_django.api.rest_framework import FCMDeviceViewSet
 
 from accounts import views
 from relationships import views as rel_views
-from notifications.views import FirebaseDeviceViewSet
+from push_notifications.views import FirebaseDeviceViewSet, NotificationViewSet
 
 
 router = SimpleRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'me/devices', FirebaseDeviceViewSet, 'device')
+router.register(r'users', views.UserViewSet, 'users')
+router.register(r'me/devices', FirebaseDeviceViewSet, 'devices')
+router.register(r'me/notifications', NotificationViewSet, 'notifications')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

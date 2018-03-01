@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     'social_django',
     'fcm_django',
     'django_extensions',
+    'notifications',
 
     'accounts',
     'relationships',
-    'notifications'
+    'push_notifications'
 ]
 
 MIDDLEWARE = [

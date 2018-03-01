@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from fcm_django.models import FCMDevice
+from notifications.models import Notification
+from accounts.models import User
 
 
 class FirebaseDeviceSerializer(serializers.ModelSerializer):
@@ -18,7 +20,7 @@ class FirebaseDeviceSerializer(serializers.ModelSerializer):
             device.registration_id = validated_data.get('registration_id')
             device.save()
         except FCMDevice.DoesNotExist:
-            device = FCMDevice.objects.create(**validated_data) 
+            device = FCMDevice.objects.create(**validated_data)
         return device
 
 
@@ -26,3 +28,17 @@ class FirebaseDeviceSerializer(serializers.ModelSerializer):
         instance.registration_id = validated_data.get('registration_id')
         instance.save()
         return instance
+
+
+class ActorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'photo_url')
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    actor = ActorSerializer()
+
+    class Meta:
+        model = Notification
+        fields = ('id', 'actor', 'verb', 'timesince')        

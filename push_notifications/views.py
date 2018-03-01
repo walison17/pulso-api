@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from fcm_django.models import FCMDevice
 from fcm_django.api.rest_framework import FCMDeviceSerializer
 
-from .serializers import FirebaseDeviceSerializer
+from .serializers import FirebaseDeviceSerializer, NotificationSerializer
 
 
 class FirebaseDeviceViewSet(ModelViewSet):
@@ -21,3 +21,11 @@ class FirebaseDeviceViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer = serializer.save(user=self.request.user)
         super(FirebaseDeviceViewSet, self).perform_create(serializer)
+
+
+class NotificationViewSet(ModelViewSet):
+    serializer_class = NotificationSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return self.request.user.notifications.all()

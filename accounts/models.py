@@ -4,8 +4,8 @@ from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
 
 from relationships.models import Follow
-from notifications.models import FirebaseDeviceMixin
-from notifications.signals import user_was_followed
+from push_notifications.models import FirebaseDeviceMixin
+from push_notifications.signals import user_was_followed
 
 
 class User(AbstractUser, FirebaseDeviceMixin):
@@ -32,7 +32,7 @@ class User(AbstractUser, FirebaseDeviceMixin):
 
     def follow(self, user):
         """"Segue um novo usuário"""
-        user_was_followed.send_robust(sender=self.__class__, follower=self, followee=user)
+        user_was_followed.send(sender=self.__class__, follower=self, followee=user)
         return Follow.objects.create(from_user=self, to_user=user)
 
  

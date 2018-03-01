@@ -1,4 +1,4 @@
-from notifications.signals import user_was_followed
+from push_notifications.signals import user_was_followed
 
 from .models import Follow
 
