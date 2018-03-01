@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db.models import Count, Q
 
 from fcm_django.models import FCMDevice
 from notifications.models import Notification
@@ -41,4 +42,4 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ('id', 'actor', 'verb', 'timesince')        
+        fields = ('id', 'actor', 'verb', 'timesince',)       
