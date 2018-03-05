@@ -20,6 +20,8 @@ def notify_new_follower(sender, follower, followee, **kwargs):
             title='Pulso',
             body=body,
             icon='notification_icon',
+            sound='default',
+            color='#6f41bf',
             data=extra
         )
 
