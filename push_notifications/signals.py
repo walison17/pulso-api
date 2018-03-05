@@ -8,13 +8,22 @@ user_was_followed = Signal(providing_args=['followee', 'follower'])
 
 @receiver(user_was_followed)
 def notify_new_follower(sender, follower, followee, **kwargs):
-    notify.send(sender=follower, recipient=followee, verb='seguiu você')
     devices = FCMDevice.objects.filter(user=followee)
     if devices.exists():
-        title = f'{follower.name} seguiu você'
+        body = f'{follower.name} seguiu você'
         extra = {
-            'title': title,
+            'body': body,
             'notification_type': 'follower',
             'object_id': follower.id,
         }
-        devices.send_message(title=title, data=extra)
+        devices.send_message(
+            title='Pulso',
+            body=body,
+            icon='notification_icon',
+            data=extra
+        )
+
+
+@receiver(user_was_followed)
+def save_notify_on_db(sender, follower, followee, **kwargs):
+    notify.send(sender=follower, recipient=followee, verb='seguiu você')

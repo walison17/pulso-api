@@ -18,11 +18,9 @@ class FirebaseDeviceViewSet(ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = FirebaseDeviceSerializer
 
-
     def get_queryset(self):
         return FCMDevice.objects.filter(user=self.request.user, active=True)
-
-    
+ 
     def perform_create(self, serializer):
         serializer = serializer.save(user=self.request.user)
         super(FirebaseDeviceViewSet, self).perform_create(serializer)
