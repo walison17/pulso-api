@@ -3,7 +3,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank 
+from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
 
 from rest_framework import serializers
 from rest_framework import status
@@ -42,14 +42,14 @@ def get_token(request, backend):
         try:
             access_token = request.GET.get('access_token', None)
             user = request.backend.do_auth(access_token)
-        except HTTPError as e: 
+        except HTTPError as e:
             return Response(
                 {
                     'errors': {
                         'message': 'token inválido'
                     }
                 },
-                status.HTTP_400_BAD_REQUEST 
+                status.HTTP_400_BAD_REQUEST
             )
         if user and user.is_active:
             token, _ = Token.objects.get_or_create(user=user)
@@ -63,11 +63,13 @@ def me(request):
         serializer = AuthUserSerializer(request.user)
         return Response(serializer.data)
     if request.method == 'PUT':
-        serializer = AuthUserSerializer(request.user, data=request.data, partial=True)
+        serializer = AuthUserSerializer(
+            request.user, data=request.data, partial=True
+        )
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
-        
+
 
 @api_view(['PUT'])
 @csrf_exempt
@@ -83,10 +85,11 @@ class UserViewSet(ReadOnlyModelViewSet):
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
 
-
     @detail_route(methods=['get'], url_path='following')
     def friends(self, request, pk=None):
-        """Busca os amigos (usuários seguidos) pelo usuário com o id informado"""
+        """
+        Busca os amigos (usuários seguidos) pelo usuário com o id informado
+        """
         user = self.get_object()
         friends = user.following.all()
 
@@ -98,8 +101,6 @@ class UserViewSet(ReadOnlyModelViewSet):
         serializer = FolloweeSerializer(friends, many=True)
         return Response(serializer.data)
 
-
-    
     @list_route(methods=['get'], url_path='search')
     def search_user(self, request):
         vector = SearchVector('first_name', weight='A') + SearchVector('last_name', weight='B') + SearchVector('city', weight='C')
@@ -116,7 +117,7 @@ class UserViewSet(ReadOnlyModelViewSet):
         serializer = self.get_serializer(search_result, many=True)
         return self.get_paginated_response(serializer.data)
 
-    
+
 class FacebookFriendListView(ListAPIView):
     serializer_class = FacebookFriendSerializer
     permission_classes = (IsAuthenticated,)

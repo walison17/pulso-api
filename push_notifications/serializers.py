@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.db.models import Count, Q
 
 from fcm_django.models import FCMDevice
 from notifications.models import Notification
@@ -12,7 +11,6 @@ class FirebaseDeviceSerializer(serializers.ModelSerializer):
         fields = ('id', 'device_id', 'registration_id', 'type',)
         read_only = ('id', 'device_id',)
 
-
     def create(self, validated_data):
         try:
             device = FCMDevice.objects.get(
@@ -23,7 +21,6 @@ class FirebaseDeviceSerializer(serializers.ModelSerializer):
         except FCMDevice.DoesNotExist:
             device = FCMDevice.objects.create(**validated_data)
         return device
-
 
     def update(self, instance, validated_data):
         instance.registration_id = validated_data.get('registration_id')
@@ -42,4 +39,4 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ('id', 'actor', 'verb', 'timesince',)       
+        fields = ('id', 'actor', 'verb', 'timesince',)

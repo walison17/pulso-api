@@ -9,7 +9,6 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from fcm_django.models import FCMDevice
-from fcm_django.api.rest_framework import FCMDeviceSerializer
 
 from .serializers import FirebaseDeviceSerializer, NotificationSerializer
 
@@ -20,7 +19,7 @@ class FirebaseDeviceViewSet(ModelViewSet):
 
     def get_queryset(self):
         return FCMDevice.objects.filter(user=self.request.user, active=True)
- 
+
     def perform_create(self, serializer):
         serializer = serializer.save(user=self.request.user)
         super(FirebaseDeviceViewSet, self).perform_create(serializer)
@@ -38,7 +37,6 @@ class NotificationViewSet(ModelViewSet):
             return notifications.filter(unread=query)
         return notifications
 
-
     @list_route(methods=['post'], url_path='mark_as_read')
     def mark_as_read(self, request):
         user = self.request.user
@@ -46,5 +44,3 @@ class NotificationViewSet(ModelViewSet):
             .filter(timestamp__lt=timezone.now()) \
             .mark_all_as_read()
         return Response(status=status.HTTP_204_NO_CONTENT)
-        
-

@@ -14,33 +14,34 @@ class User(AbstractUser, FirebaseDeviceMixin):
     gender = models.CharField(max_length=15, null=True)
     city = models.CharField(max_length=50, null=True)
     state = models.CharField(max_length=3, null=True)
-    country = models.CharField(max_length=20, null=True) 
+    country = models.CharField(max_length=20, null=True)
     photo_url = models.URLField(max_length=150, blank=True, null=True)
     facebook_url = models.URLField(null=True)
     instagram_url = models.URLField(null=True)
     following = models.ManyToManyField(
-        to=settings.AUTH_USER_MODEL, 
+        to=settings.AUTH_USER_MODEL,
         through='relationships.Follow',
         related_name='followers',
     )
-    facebook_friends_ids = ArrayField(models.BigIntegerField(), blank=True, null=True)
+    facebook_friends_ids = ArrayField(
+        models.BigIntegerField(), blank=True, null=True
+    )
 
     @property
     def name(self):
         return f'{self.first_name} {self.last_name}'
 
-
     def follow(self, user):
         """"Segue um novo usuário"""
-        user_was_followed.send(sender=self.__class__, follower=self, followee=user)
+        user_was_followed.send(
+            sender=self.__class__, follower=self, followee=user
+        )
         return Follow.objects.create(from_user=self, to_user=user)
 
- 
     def follows(self, user):
         """Verifica se o usuário já segue um outro usuário"""
         return Follow.objects.filter(from_user=self, to_user=user).exists()
 
-    
     def is_followed_by(self, user):
         """Verifica se o usuário é seguido por um outro usuário"""
         return Follow.objects.filter(from_user=user, to_user=self).exists()

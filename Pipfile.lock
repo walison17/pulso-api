@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2f748c81389f9d340ab7ee525e6fecf084da4f639b6ed57e291e0591e1899d6d"
+            "sha256": "78b5860ca7dd71d1bec09f434c9b7da3596dca16574a17690d1243a8d6ddc650"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -9,9 +9,9 @@
             "os_name": "posix",
             "platform_machine": "x86_64",
             "platform_python_implementation": "CPython",
-            "platform_release": "4.13.0-32-generic",
+            "platform_release": "4.13.0-36-generic",
             "platform_system": "Linux",
-            "platform_version": "#35~16.04.1-Ubuntu SMP Thu Jan 25 10:13:43 UTC 2018",
+            "platform_version": "#40~16.04.1-Ubuntu SMP Fri Feb 16 23:25:58 UTC 2018",
             "python_full_version": "3.6.3",
             "python_version": "3.6",
             "sys_platform": "linux"
@@ -210,10 +210,10 @@
         },
         "fcm-django": {
             "hashes": [
-                "sha256:a0e9e1708c8f0b539738ac60291b0a92d0715b344c344c96a4ac038555c0738e",
-                "sha256:0a1f6e52697f20a8dcf4516e27a00d0f18a79f8960c39d4e66d8abcefd4ddc69"
+                "sha256:57a74fc3fea8b0847cb2f3e8a27b9d7da285d28eb3f8e62772885c27ac11ff87",
+                "sha256:c735a7e8892196ada80c42aea4fa1c393572503b84b5dcd92d9354c266ebb751"
             ],
-            "version": "==0.2.15"
+            "version": "==0.2.16"
         },
         "gunicorn": {
             "hashes": [
@@ -351,17 +351,17 @@
         },
         "pyfcm": {
             "hashes": [
-                "sha256:436609f815dd5783ba15f33c5034d5380c57577c201d957d8470fa0b1289e6d6",
-                "sha256:dd66f890ea20178eaaa274d781809b672187d76b10f56cf7cbe4d54c8b6a01b0"
+                "sha256:eca0d93481a441ecad865ac7d81b3b237a3e7a11cb872fd6961523391858af73",
+                "sha256:de3c7292e63186f30852c78cbbbc1bfa47b3996deb4e905be38e89a0692285ee"
             ],
-            "version": "==1.4.3"
+            "version": "==1.4.5"
         },
         "pyjwt": {
             "hashes": [
-                "sha256:a4e5f1441e3ca7b382fd0c0b416777ced1f97c64ef0c33bfa39daf38505cfd2f",
-                "sha256:500be75b17a63f70072416843dc80c8821109030be824f4d14758f114978bae7"
+                "sha256:b752500cafd4df9f0dc6efe9063603e36a4e1a5c24fee48234d2949b6606aa59",
+                "sha256:9c3016e4a292151c5396e25cc0c28c4e1cdf13fa19118eb84f500f9670e3f628"
             ],
-            "version": "==1.5.3"
+            "version": "==1.6.0"
         },
         "python-dateutil": {
             "hashes": [
@@ -406,10 +406,10 @@
         },
         "raven": {
             "hashes": [
-                "sha256:0adae40e004dfe2181d1f2883aa3d4ca1cf16dbe449ae4b445b011c6eb220a90",
-                "sha256:84da75114739191bdf2388f296ffd6177e83567a7fbaf2701e034ad6026e4f3b"
+                "sha256:738a52019d01955d5b44b49d67c9f2f4cedb1b4f70d4fb0b493931174d00e044",
+                "sha256:92bf4c4819472ed20f1b9905eeeafe1bc6fe5f273d7c14506fdb8fb3a6ab2074"
             ],
-            "version": "==6.5.0"
+            "version": "==6.6.0"
         },
         "requests": {
             "hashes": [
@@ -541,6 +541,13 @@
             ],
             "version": "==3.5.0"
         },
+        "freezegun": {
+            "hashes": [
+                "sha256:94c59d69bb99c9ec3ca5a3adb41930d3ea09d2a9756c23a02d89fa75646e78dd",
+                "sha256:703caac155dcaad61f78de4cb0666dca778d854dfb90b3699930adee0559a622"
+            ],
+            "version": "==0.3.10"
+        },
         "ipython": {
             "hashes": [
                 "sha256:fcc6d46f08c3c4de7b15ae1c426e15be1b7932bcda9d83ce1a4304e8c1129df3",
@@ -626,6 +633,13 @@
                 "sha256:dbae1046def0efb574852fab9e90209b23f556367b5a320c0bcb871c77c3e8cc"
             ],
             "version": "==2.2.0"
+        },
+        "python-dateutil": {
+            "hashes": [
+                "sha256:95511bae634d69bc7329ba55e646499a842bc4ec342ad54a8cdb65645a0aad3c",
+                "sha256:891c38b2a02f5bb1be3e4793866c8df49c7d19baabf9c1bad62547e0b4866aca"
+            ],
+            "version": "==2.6.1"
         },
         "simplegeneric": {
             "hashes": [

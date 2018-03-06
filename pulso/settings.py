@@ -1,5 +1,4 @@
 import os
-import raven
 import dj_database_url
 from decouple import config
 from dj_database_url import parse as db_url
@@ -31,6 +30,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'raven.contrib.django.raven_compat',
+    'django.contrib.gis',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     'fcm_django',
     'django_extensions',
     'notifications',
+    'rest_framework_gis',
 
     'accounts',
     'relationships',
-    'push_notifications'
+    'push_notifications',
+    'pulsos'
 ]
 
 MIDDLEWARE = [
@@ -115,7 +117,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -155,7 +157,7 @@ SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY')
 SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_friends', 'user_about_me', 'user_location']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'locale': 'pt_BR',    
+    'locale': 'pt_BR',
     'fields': 'id,name,email,gender,about,first_name,last_name,link,friends,location{location}'
 }
 SOCIAL_AUTH_PIPELINE = (

@@ -3,8 +3,6 @@ from django.urls import path, include
 
 from rest_framework.routers import SimpleRouter
 
-from fcm_django.api.rest_framework import FCMDeviceViewSet
-
 from accounts import views
 from relationships import views as rel_views
 from push_notifications.views import FirebaseDeviceViewSet, NotificationViewSet
@@ -16,6 +14,7 @@ router.register(r'me/devices', FirebaseDeviceViewSet, 'devices')
 router.register(r'me/notifications', NotificationViewSet, 'notifications')
 
 urlpatterns = [
+    path('pulsos/', include('pulsos.urls')),
     path('admin/', admin.site.urls),
     path('auth/<str:backend>', views.get_token),
     path('me/', include([
