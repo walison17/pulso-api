@@ -1,1 +1,1 @@
-web: gunicorn pulso.wsgi
+web: gunicorn pulso.wsgi --preload

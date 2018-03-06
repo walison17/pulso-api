@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'fcm_django',
     'django_extensions',
     'notifications',
-    'rest_framework_gis',
 
     'accounts',
     'relationships',

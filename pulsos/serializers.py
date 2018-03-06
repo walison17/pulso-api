@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from rest_framework_gis.serializers import GeoModelSerializer
 from django.contrib.gis.geos import Point
 
 from .models import Pulso
@@ -28,7 +27,7 @@ class LocationSerializer(serializers.BaseSerializer):
         return Point([lat, long])
 
 
-class PulsoSerializer(GeoModelSerializer):
+class PulsoSerializer(serializers.ModelSerializer):
     created_by = PulsoCreatorSerializer(read_only=True)
     location = LocationSerializer(write_only=True)
 

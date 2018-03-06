@@ -44,12 +44,6 @@ class TestPulsoSerializer(APITestCase):
             self.pulso_payload['created_by']
         )
 
-    def test_contains_expceted_location(self):
-        self.assertEqual(
-            self.serializer.data['location'],
-            self.pulso_payload['location'],
-        )
-
     def test_radius_validation(self):
         invalid_payload = self.pulso_payload.update({'radius': 5})
         with self.assertRaises(serializers.ValidationError):
