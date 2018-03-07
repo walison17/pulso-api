@@ -225,6 +225,7 @@ LOGGING = {
     },
 }
 
-GDAL_LIBRARY_PATH = '{}/libgdal.so'.format(config('GDAL_LIBRARY_PATH'))
-GEOS_LIBRARY_PATH = '{}/libgeos_c.so'.format(config('GEOS_LIBRARY_PATH'))
-PROJ4_LIBRARY_PATH = '{}/libproj.so'.format(config('PROJ4_LIBRARY_PATH'))
+if not DEBUG:
+    GDAL_LIBRARY_PATH = '{}/libgdal.so'.format(config('GDAL_LIBRARY_PATH'))
+    GEOS_LIBRARY_PATH = '{}/libgeos_c.so'.format(config('GEOS_LIBRARY_PATH'))
+    PROJ4_LIBRARY_PATH = '{}/libproj.so'.format(config('PROJ4_LIBRARY_PATH'))
