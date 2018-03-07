@@ -84,6 +84,7 @@ WSGI_APPLICATION = 'pulso.wsgi.application'
 DATABASES = {
     'default': config('DATABASE_URL', default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'), cast=db_url)
 }
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 
 # Password validation
