@@ -223,3 +223,6 @@ LOGGING = {
         },
     },
 }
+
+GDAL_LIBRARY_PATH = config('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = config('GEOS_LIBRARY_PATH')
