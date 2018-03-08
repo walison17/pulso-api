@@ -1,3 +1,6 @@
+import datetime
+from unittest import mock
+
 from rest_framework.test import APITestCase, APIRequestFactory
 from rest_framework.authtoken.models import Token
 from rest_framework import status
@@ -49,7 +52,7 @@ class TestPulsoList(APITestCase):
             Pulso,
             location=SHOPPING_DIFUSORA,
             radius=1000,
-            _quantity=5
+            _quantity=6
         )
         mommy.make(
             Pulso,
@@ -61,7 +64,7 @@ class TestPulsoList(APITestCase):
         response = self.view(request, **self.user_location)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 5)
+        self.assertEqual(response.data['count'], 6)
 
     def test_get_available_pulsos(self):
         mommy.make(
@@ -74,11 +77,39 @@ class TestPulsoList(APITestCase):
             Pulso,
             location=ARMAZEM_DA_CRIATIVDADE,
             radius=50,
+            _quantity=10
+        )
+
+        response = self.client.get(
+            '/pulsos/{}/{}/'.format(*self.user_location.values())
+        )
+
+        self.assertEqual(Pulso.objects.count(), 15)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 5)
+
+    def test_get_only_pulsos_not_expired(self):
+        with mock.patch(
+            'pulsos.models.timezone.now',
+            return_value=datetime.datetime.now() - datetime.timedelta(hours=3)
+        ):
+            mommy.make(
+                Pulso,
+                location=SHOPPING_DIFUSORA,
+                radius=500,
+                _quantity=5
+            )
+        mommy.make(
+            Pulso,
+            location=SHOPPING_DIFUSORA,
+            radius=500,
             _quantity=5
         )
 
         response = self.client.get(
-            '/pulsos/-8.278606888/-35.972936663/'
+            '/pulsos/{}/{}/'.format(*self.user_location.values())
         )
 
+        self.assertEqual(Pulso.objects.count(), 10)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 5)

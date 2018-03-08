@@ -13,7 +13,7 @@ class PulsoListView(ListAPIView):
             'lat': float(self.kwargs['lat']),
             'long': float(self.kwargs['long'])
         }
-        return Pulso.objects.available_for(**location)
+        return Pulso.objects.happening().available_for(**location)
 
 
 class PulsoCreateView(CreateAPIView):
