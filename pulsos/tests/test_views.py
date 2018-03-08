@@ -18,12 +18,10 @@ ARMAZEM_DA_CRIATIVDADE = Point([-8.238869, -35.980656])
 class TestPulsoCreateView(APITestCase):
 
     def setUp(self):
-        user = mommy.make('accounts.User')
-        token = mommy.make(Token, user=user)
+        self.user = mommy.make('accounts.User')
+        token = mommy.make(Token, user=self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
-
-    def test_create_new_pulso(self):
-        payload = {
+        self.payload = {
             'description': 'descrição do pulso..',
             'location': {
                 'lat': -8.278606,
@@ -32,9 +30,26 @@ class TestPulsoCreateView(APITestCase):
             'radius': 150
         }
 
-        response = self.client.post('/pulsos/', payload, format='json')
-
+    def test_create_new_pulso(self):
+        response = self.client.post('/pulsos/', self.payload, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_validation_error_when_create_simultaneous_pulsos(self):
+        response_from_first_creation = self.client.post(
+            '/pulsos/', self.payload, format='json'
+        )
+
+        self.assertEqual(response_from_first_creation.status_code,
+                         status.HTTP_201_CREATED)
+        self.assertEqual(Pulso.objects.created_by(self.user).count(), 1)
+
+        response_from_second_creation = self.client.post(
+            '/pulsos/', self.payload, format='json'
+        )
+
+        self.assertEqual(response_from_second_creation.status_code,
+                         status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Pulso.objects.created_by(self.user).count(), 1)
 
 
 class TestPulsoList(APITestCase):
