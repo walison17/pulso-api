@@ -10,8 +10,8 @@ class PulsoListView(ListAPIView):
 
     def get_queryset(self):
         location = {
-            'lat': self.kwargs['lat'],
-            'long': self.kwargs['long']
+            'lat': float(self.kwargs['lat']),
+            'long': float(self.kwargs['long'])
         }
         return Pulso.objects.available_for(**location)
 

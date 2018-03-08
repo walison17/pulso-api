@@ -62,3 +62,23 @@ class TestPulsoList(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 5)
+
+    def test_get_available_pulsos(self):
+        mommy.make(
+            Pulso,
+            location=SHOPPING_DIFUSORA,
+            radius=1000,
+            _quantity=5
+        )
+        mommy.make(
+            Pulso,
+            location=ARMAZEM_DA_CRIATIVDADE,
+            radius=50,
+            _quantity=5
+        )
+
+        response = self.client.get(
+            '/pulsos/-8.278606888/-35.972936663/'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

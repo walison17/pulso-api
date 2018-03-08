@@ -11,7 +11,7 @@ from ..models import Pulso
 
 class TestPulsoModel(TestCase):
 
-    SHOPPING_DIFUSORA = Point([-8.2777392, -35.9716179])
+    SHOPPING_DIFUSORA = Point([-8.2777392, -8.2777392])
     ARMAZEM_DA_CRIATIVDADE = Point([-8.238869, -35.980656])
 
     def setUp(self):
