@@ -50,6 +50,16 @@ class TestPulsoSerializer(APITestCase):
             serializer = PulsoSerializer(data=invalid_payload)
             serializer.is_valid(raise_exception=True)
 
+    def test_raises_exception_when_user_cannot_create_new_pulso(self):
+        user = mommy.make('accounts.User')
+        mommy.make(Pulso, created_by=user, _quantity=2)
+        with self.assertRaises(serializers.ValidationError):
+            serializer = PulsoSerializer(
+                data=self.pulso_payload,
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save(created_by=user)
+
 
 class TestLocationSerializer(APISimpleTestCase):
 

@@ -13,7 +13,7 @@ python_version = "3.6"
 [packages]
 
 dj-database-url = "==0.4.2"
-Django = "==2.0"
+django = "==2.0"
 gunicorn = "==19.7.1"
 "psycopg2" = "==2.7.3.2"
 whitenoise = "==3.3.1"
@@ -23,18 +23,20 @@ djangorestframework = "*"
 django-extensions = "*"
 "django2.0" = {git = "git://github.com/adamyala/django-friendship.git"}
 django-rest-swagger = "*"
-model_mommy = "*"
+model-mommy = "*"
 django-push-notifications = "*"
 fcm-django = "*"
 raven = "*"
-factory_boy = "*"
+factory-boy = "*"
 django-notifications-hq = {git = "https://github.com/django-notifications/django-notifications"}
 
 
 [dev-packages]
 
 "flake8" = "*"
-Werkzeug = "*"
+werkzeug = "*"
 ipython = "*"
 django-extensions = "*"
 freezegun = "*"
+ipdb = "*"
+"autopep8" = "*"

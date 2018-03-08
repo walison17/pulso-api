@@ -49,6 +49,12 @@ class PulsoSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        if Pulso.objects.happening() \
+            .created_by(validated_data['created_by']) \
+                .exists():
+            raise serializers.ValidationError(
+                'Usuário não pode criar pulsos simultâneamente.'
+            )
         return Pulso.objects.create(**validated_data)
 
 
