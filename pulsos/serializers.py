@@ -34,7 +34,7 @@ class PulsoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pulso
         fields = (
-            'created_by', 'description', 'radius',
+            'id', 'created_by', 'description', 'radius',
             'created_at', 'ends_at', 'location',
         )
         read_only_fields = (
