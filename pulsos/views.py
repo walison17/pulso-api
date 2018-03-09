@@ -1,5 +1,8 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
+from rest_framework.generics import (ListAPIView, CreateAPIView,
+                                     DestroyAPIView, RetrieveAPIView)
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import Pulso
 from .serializers import PulsoSerializer, PulsoWithDistanceSerializer
@@ -34,5 +37,12 @@ class PulsoCancelView(DestroyAPIView):
         instance.cancel()
 
 
-class PulsoCloseView(CreateAPIView):
-    pass
+class PulsoCloseView(RetrieveAPIView):
+
+    def get_queryset(self):
+        return Pulso.objects.happening().created_by(self.request.user)
+
+    def retrieve(self, requeest, *args, **kwargs):
+        instance = self.get_object()
+        instance.close()
+        return Response(status=status.HTTP_204_NO_CONTENT)

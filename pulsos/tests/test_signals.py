@@ -4,7 +4,7 @@ from unittest.mock import Mock
 from rest_framework.test import APITestCase
 from model_mommy import mommy
 
-from ..signals import canceled_pulso
+from ..signals import canceled_pulso, closed_pulso
 from ..models import Pulso
 
 
@@ -28,4 +28,13 @@ class TestPulsoSignals(APITestCase):
                 sender=Pulso,
                 pulso=self.pulso,
                 signal=canceled_pulso
+            )
+
+    def test_notify_users_from_close(self):
+        with catch_signal(closed_pulso) as handler:
+            self.pulso.close()
+            handler.assert_called_once_with(
+                sender=Pulso,
+                pulso=self.pulso,
+                signal=closed_pulso
             )

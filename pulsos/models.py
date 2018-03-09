@@ -7,7 +7,7 @@ from django.contrib.gis.db.models.functions import Distance
 from django.conf import settings
 from django.utils import timezone
 
-from .signals import canceled_pulso
+from .signals import canceled_pulso, closed_pulso
 
 DEFAULT_SRID = 4326
 
@@ -65,3 +65,8 @@ class Pulso(models.Model):
         self.is_canceled = True
         self.save()
         canceled_pulso.send(sender=self.__class__, pulso=self)
+
+    def close(self):
+        self.is_closed = True
+        self.save()
+        closed_pulso.send(sender=self.__class__, pulso=self)

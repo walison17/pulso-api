@@ -163,3 +163,31 @@ class TestCancelAndCloseView(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_close_pulso(self):
+        pulso = mommy.make(Pulso, created_by=self.user)
+
+        self.assertEqual(Pulso.objects.created_by(self.user).count(), 1)
+
+        response = self.client.get(
+            '/pulsos/{pulso_id}/close/'.format(pulso_id=pulso.pk)
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(
+            Pulso.objects.created_by(self.user).closed().count(), 1
+        )
+
+    def test_trow_error_when_try_to_close_a_pulso_from_another_user(self):
+        pulso_from_another_user = mommy.make(Pulso)
+
+        self.assertEqual(Pulso.objects.count(), 1)
+        self.assertEqual(Pulso.objects.created_by(self.user).count(), 0)
+
+        response = self.client.get(
+            '/pulsos/{pulso_id}/close/'.format(
+                pulso_id=pulso_from_another_user.pk
+            )
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
