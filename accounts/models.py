@@ -46,9 +46,9 @@ class User(AbstractUser, FirebaseDeviceMixin):
         return Follow.objects.filter(from_user=user, to_user=self).exists()
 
     @property
-    def created_pulsos_quantity(self):
-        return self.pulsos.count()
+    def created_pulsos(self):
+        return self.pulsos.filter(is_canceled=False)
 
     @property
-    def participated_pulsos_quantity(self):
+    def participated_pulsos(self):
         return 0
