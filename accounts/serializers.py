@@ -6,12 +6,19 @@ from .models import User
 class AuthUserSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField(read_only=True)
     followers_count = serializers.SerializerMethodField(read_only=True)
+    created_pulsos_count = serializers.IntegerField(
+        source='created_pulsos_quantity', read_only=True
+    )
+    participated_pulsos_count = serializers.IntegerField(
+        source='participated_pulsos_quantity', read_only=True
+    )
 
     class Meta:
         model = User
         fields = ('id', 'email', 'first_name', 'last_name', 'photo_url',
                   'facebook_url', 'gender', 'city', 'state', 'country',
-                  'about', 'following_count', 'followers_count',)
+                  'about', 'following_count', 'followers_count',
+                  'created_pulsos_count', 'participated_pulsos_count')
         read_only_fields = ('id', 'email', 'first_name', 'last_name',
                             'gender', 'facebook_url', 'photo_url',)
 

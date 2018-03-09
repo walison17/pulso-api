@@ -1,22 +1,15 @@
-import json
-
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import get_object_or_404
-from django.db.models import Q
-from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
+from django.contrib.postgres.search import (SearchQuery, SearchVector,
+                                            SearchRank)
 
 from rest_framework import serializers
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import (
-    api_view, permission_classes, authentication_classes
-)
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView
-from rest_framework.authentication import TokenAuthentication, BasicAuthentication
-from rest_framework import mixins
+from rest_framework.generics import ListAPIView
 from rest_framework.decorators import detail_route, list_route
 
 from requests.exceptions import HTTPError
@@ -24,7 +17,8 @@ from requests.exceptions import HTTPError
 from social_django.utils import psa
 
 from .models import User
-from .serializers import UserSerializer, AuthUserSerializer, FacebookFriendSerializer
+from .serializers import (UserSerializer, AuthUserSerializer,
+                          FacebookFriendSerializer)
 from relationships.serializers import FolloweeSerializer
 
 
@@ -53,7 +47,7 @@ def get_token(request, backend):
             )
         if user and user.is_active:
             token, _ = Token.objects.get_or_create(user=user)
-            return Response({ 'token': str(token) })
+            return Response({'token': str(token)})
 
 
 @api_view(['GET', 'PUT'])
@@ -103,7 +97,8 @@ class UserViewSet(ReadOnlyModelViewSet):
 
     @list_route(methods=['get'], url_path='search')
     def search_user(self, request):
-        vector = SearchVector('first_name', weight='A') + SearchVector('last_name', weight='B') + SearchVector('city', weight='C')
+        vector = SearchVector('first_name', weight='A') + SearchVector(
+            'last_name', weight='B') + SearchVector('city', weight='C')
         query = SearchQuery(request.GET.get('q', None))
         search_result = User.objects \
             .annotate(rank=SearchRank(vector, query)) \

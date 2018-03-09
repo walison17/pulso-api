@@ -40,7 +40,8 @@ class PulsoQueryset(models.QuerySet):
 class Pulso(models.Model):
     created_by = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='pulsos'
     )
     description = models.CharField(max_length=140)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -17,7 +17,6 @@ class User(AbstractUser, FirebaseDeviceMixin):
     country = models.CharField(max_length=20, null=True)
     photo_url = models.URLField(max_length=150, blank=True, null=True)
     facebook_url = models.URLField(null=True)
-    instagram_url = models.URLField(null=True)
     following = models.ManyToManyField(
         to=settings.AUTH_USER_MODEL,
         through='relationships.Follow',
@@ -45,3 +44,11 @@ class User(AbstractUser, FirebaseDeviceMixin):
     def is_followed_by(self, user):
         """Verifica se o usuário é seguido por um outro usuário"""
         return Follow.objects.filter(from_user=user, to_user=self).exists()
+
+    @property
+    def created_pulsos_quantity(self):
+        return self.pulsos.count()
+
+    @property
+    def participated_pulsos_quantity(self):
+        return 0
