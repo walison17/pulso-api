@@ -191,3 +191,25 @@ class TestCancelAndCloseView(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class TestPulsoDetailView(APITestCase):
+
+    def setUp(self):
+        self.user = mommy.make('accounts.User')
+        token = mommy.make(Token, user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
+
+    def test_detail_pulso(self):
+        pulso = mommy.make(Pulso)
+        lat, long = [-8.2777392, -8.2777392]
+
+        response = self.client.get(
+            '/pulsos/{pulso_id}/?coords={lat},{long}'.format(
+                pulso_id=pulso.pk,
+                lat=lat,
+                long=long,
+            )
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

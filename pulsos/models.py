@@ -22,7 +22,7 @@ class PulsoQueryset(models.QuerySet):
                            is_closed=False, is_canceled=False)
 
     def available_for(self, lat, long):
-        current_user_location = Point(lat, long, srid=4326)
+        current_user_location = Point(lat, long, srid=DEFAULT_SRID)
         return self.annotate(
             distance=Distance('location', current_user_location)
         ).filter(distance__lte=F('radius')).order_by('-distance')

@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 
 from .views import (PulsoListView, PulsoCreateView,
-                    PulsoCancelView, PulsoCloseView)
+                    PulsoCloseView, PulsoDetailCancelView)
 
 urlpatterns = [
     path('', PulsoCreateView.as_view(), name='pulso_create'),
@@ -10,6 +10,6 @@ urlpatterns = [
         PulsoListView.as_view(),
         name='pulso_list'
     ),
-    path('<int:pk>/', PulsoCancelView.as_view(), name='pulso_cancel'),
+    path('<int:pk>/', PulsoDetailCancelView.as_view()),
     path('<int:pk>/close/', PulsoCloseView.as_view(), name='pulso_close')
 ]
