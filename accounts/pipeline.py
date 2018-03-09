@@ -24,9 +24,9 @@ def create_user(backend, details, response, user=None, *args, **kwargs):
         state=location['state'],
         country=location['country'],
         facebook_url=response['link'],
-        facebook_friends_ids=(
+        facebook_friends_ids=[
             friend['id'] for friend in response['friends']['data']
-        )
+        ]
     )
     return {
         'is_new': True,
@@ -48,7 +48,7 @@ def update_user(backend, response, details, user=None, *args, **kwargs):
         user.city = location['city']
         user.state = location['state']
         user.country = location['country']
-        user.facebook_friends_ids = (
+        user.facebook_friends_ids = [
             friend['id'] for friend in response['friends']['data']
-        )
+        ]
         user.save()
