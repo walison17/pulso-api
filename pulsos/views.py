@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Pulso
@@ -23,3 +23,16 @@ class PulsoCreateView(CreateAPIView):
     def perform_create(self, serializer):
         serializer = serializer.save(created_by=self.request.user)
         super().perform_create(serializer)
+
+
+class PulsoCancelView(DestroyAPIView):
+
+    def get_queryset(self):
+        return Pulso.objects.happening().created_by(self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.cancel()
+
+
+class PulsoCloseView(CreateAPIView):
+    pass

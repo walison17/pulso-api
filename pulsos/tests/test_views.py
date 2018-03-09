@@ -128,3 +128,38 @@ class TestPulsoList(APITestCase):
         self.assertEqual(Pulso.objects.count(), 10)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 5)
+
+
+class TestCancelAndCloseView(APITestCase):
+
+    def setUp(self):
+        self.user = mommy.make('accounts.User')
+        token = mommy.make(Token, user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
+
+    def test_cancel_pulso(self):
+        created_pulso = mommy.make(Pulso, created_by=self.user)
+
+        self.assertEqual(Pulso.objects.created_by(self.user).count(), 1)
+
+        response = self.client.delete(
+            '/pulsos/{pulso_id}/'.format(pulso_id=created_pulso.pk)
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Pulso.objects.created_by(self.user).count(), 1)
+        self.assertEqual(
+            Pulso.objects.canceled().created_by(self.user).count(), 1
+        )
+
+    def test_throw_error_when_try_to_canel_a_pulso_from_another_user(self):
+        pulso_from_another_user = mommy.make(Pulso)
+
+        self.assertEqual(Pulso.objects.created_by(self.user).count(), 0)
+        self.assertEqual(Pulso.objects.count(), 1)
+
+        response = self.client.delete(
+            '/pulsos/{pulso_id}/'.format(pulso_id=pulso_from_another_user.pk)
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
