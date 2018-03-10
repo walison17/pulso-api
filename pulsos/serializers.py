@@ -3,6 +3,7 @@ from django.contrib.gis.geos import Point
 
 from .models import Pulso
 from accounts.models import User
+from comments.serializers import CommentSerializer
 
 
 class PulsoCreatorSerializer(serializers.ModelSerializer):
@@ -30,21 +31,22 @@ class LocationSerializer(serializers.BaseSerializer):
 class PulsoSerializer(serializers.ModelSerializer):
     created_by = PulsoCreatorSerializer(read_only=True)
     location = LocationSerializer(write_only=True)
+    comments = CommentSerializer(read_only=True, many=True)
 
     class Meta:
         model = Pulso
         fields = (
             'id', 'created_by', 'description', 'radius',
-            'created_at', 'ends_at', 'location',
+            'created_at', 'ends_at', 'location', 'comments'
         )
         read_only_fields = (
             'created_by', 'ends_at', 'created_at',
         )
 
     def validate_radius(self, value):
-        if not value >= 10 or not value <= 1000:
+        if not value >= 25 or not value <= 1000:
             raise serializers.ValidationError(
-                'Distãncia deve ser entre 10 e 1000 metros.'
+                'Distãncia deve ser entre 25 e 1000 metros.'
             )
         return value
 

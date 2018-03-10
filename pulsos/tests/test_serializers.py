@@ -30,7 +30,7 @@ class TestPulsoSerializer(APITestCase):
             }
         }
 
-        self.serializer = PulsoSerializer(instance=self.pulso)
+        self.serializer = PulsoSerializer(self.pulso)
 
     def test_contains_expected_fields(self):
         self.assertEqual(
