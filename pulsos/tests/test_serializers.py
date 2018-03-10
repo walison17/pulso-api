@@ -44,6 +44,12 @@ class TestPulsoSerializer(APITestCase):
             self.pulso_payload['created_by']
         )
 
+    def test_contains_expected_comments_count(self):
+        mommy.make('comments.Comment', pulso=self.pulso, _quantity=10)
+        self.assertEqual(
+            self.serializer.data['comments_count'], 10
+        )
+
     def test_radius_validation(self):
         invalid_payload = self.pulso_payload.update({'radius': 5})
         with self.assertRaises(serializers.ValidationError):

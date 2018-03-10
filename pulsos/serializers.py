@@ -32,12 +32,15 @@ class PulsoSerializer(serializers.ModelSerializer):
     created_by = PulsoCreatorSerializer(read_only=True)
     location = LocationSerializer(write_only=True)
     comments = CommentSerializer(read_only=True, many=True)
+    comments_count = serializers.IntegerField(read_only=True,
+                                              source='comments.count')
 
     class Meta:
         model = Pulso
         fields = (
             'id', 'created_by', 'description', 'radius',
-            'created_at', 'ends_at', 'location', 'comments'
+            'created_at', 'ends_at', 'location', 'comments_count',
+            'comments',
         )
         read_only_fields = (
             'created_by', 'ends_at', 'created_at',
