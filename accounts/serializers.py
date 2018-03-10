@@ -10,7 +10,7 @@ class AuthUserSerializer(serializers.ModelSerializer):
         source='created_pulsos.count', read_only=True
     )
     participated_pulsos_count = serializers.IntegerField(
-        source='participated_pulsos', read_only=True
+        source='participated_pulsos.count', read_only=True
     )
 
     class Meta:

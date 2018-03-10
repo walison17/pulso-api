@@ -51,4 +51,4 @@ class User(AbstractUser, FirebaseDeviceMixin):
 
     @property
     def participated_pulsos(self):
-        return 0
+        return self.comments.values('pulso').distinct()
