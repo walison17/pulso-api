@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 
+from django.views.generic import TemplateView
+
 from rest_framework.routers import SimpleRouter
 
 from accounts import views
@@ -14,6 +16,12 @@ router.register(r'me/devices', FirebaseDeviceViewSet, 'devices')
 router.register(r'me/notifications', NotificationViewSet, 'notifications')
 
 urlpatterns = [
+    path('termos-de-uso/', TemplateView.as_view(
+        template_name='termos-de-uso.html')
+    ),
+    path('politica-de-privacidade', TemplateView.as_view(
+        template_name='politica-de-privacidade.html')
+    ),
     path('pulsos/', include('pulsos.urls')),
     path('pulsos/', include('comments.urls')),
     path('admin/', admin.site.urls),

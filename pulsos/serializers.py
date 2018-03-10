@@ -64,10 +64,7 @@ class PulsoSerializer(serializers.ModelSerializer):
 
 
 class PulsoWithDistanceSerializer(PulsoSerializer):
-    distance = serializers.SerializerMethodField()
-
-    def get_distance(self, obj):
-        return obj.distance.m
+    distance = serializers.IntegerField(source='distance.m')
 
     class Meta(PulsoSerializer.Meta):
         fields = PulsoSerializer.Meta.fields + ('distance',)
