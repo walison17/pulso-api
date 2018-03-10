@@ -11,5 +11,5 @@ urlpatterns = [
         name='pulso_list'
     ),
     path('<int:pk>/', PulsoDetailCancelView.as_view()),
-    path('<int:pk>/close/', PulsoCloseView.as_view(), name='pulso_close')
+    path('<int:pk>/close/', PulsoCloseView.as_view(), name='pulso_close'),
 ]

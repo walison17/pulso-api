@@ -15,6 +15,7 @@ router.register(r'me/notifications', NotificationViewSet, 'notifications')
 
 urlpatterns = [
     path('pulsos/', include('pulsos.urls')),
+    path('pulsos/', include('comments.urls')),
     path('admin/', admin.site.urls),
     path('auth/<str:backend>', views.get_token),
     path('me/', include([
