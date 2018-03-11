@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
     'raven.contrib.django.raven_compat',
     'django.contrib.gis',
 
