@@ -56,7 +56,7 @@ class Pulso(models.Model):
     objects = PulsoQueryset.as_manager()
 
     class Meta:
-        ordering = ['-ends_at']
+        ordering = ['ends_at']
 
     def save(self, *args, **kwargs):
         self.ends_at = timezone.now() + datetime.timedelta(hours=1)
