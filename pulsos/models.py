@@ -72,6 +72,11 @@ class Pulso(models.Model):
         self.save()
         closed_pulso.send(sender=self.__class__, pulso=self)
 
+    def is_active(self):
+        return not self.is_closed \
+            and not self.is_canceled \
+            and timezone.now() <= self.ends_at
+
     @property
     def participants(self):
         return [

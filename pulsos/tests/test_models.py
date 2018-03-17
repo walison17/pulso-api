@@ -92,3 +92,27 @@ class TestPulsoModel(TestCase):
         self.assertIn(participant_2, pulso.participants)
         self.assertNotIn(self.user, pulso.participants)
         self.assertEqual(pulso.comments.count(), 11)
+
+    def test_cancel_pulso(self):
+        pulso = mommy.make('pulsos.Pulso')
+        self.assertTrue(pulso.is_active())
+        self.assertFalse(pulso.is_canceled)
+        pulso.cancel()
+        self.assertTrue(pulso.is_canceled)
+        self.assertFalse(pulso.is_active())
+
+    def test_close_pulso(self):
+        pulso = mommy.make('pulsos.Pulso')
+        self.assertTrue(pulso.is_active())
+        self.assertFalse(pulso.is_closed)
+        pulso.close()
+        self.assertTrue(pulso.is_closed)
+        self.assertFalse(pulso.is_active())
+
+    def test_pulso_is_not_active_when_not_happening(self):
+        with mock.patch(
+            'pulsos.models.timezone.now',
+            return_value=datetime.datetime.now() - datetime.timedelta(hours=5)
+        ):
+            pulso = mommy.make('pulsos.Pulso')
+        self.assertFalse(pulso.is_active())
