@@ -48,7 +48,7 @@ class PulsoDetailCancelView(RetrieveDestroyAPIView):
 
     def get_queryset(self):
         if self.request.method == 'GET':
-            return Pulso.objects.happening()
+            return Pulso.objects.all()
         return Pulso.objects.happening().created_by(self.request.user)
 
     def get_object(self):

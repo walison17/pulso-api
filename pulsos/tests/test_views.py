@@ -152,7 +152,7 @@ class TestCancelAndCloseView(APITestCase):
             Pulso.objects.canceled().created_by(self.user).count(), 1
         )
 
-    def test_throw_error_when_try_to_canel_a_pulso_from_another_user(self):
+    def test_throw_error_when_try_to_cancel_a_pulso_from_another_user(self):
         pulso_from_another_user = mommy.make(Pulso)
 
         self.assertEqual(Pulso.objects.created_by(self.user).count(), 0)
@@ -213,3 +213,34 @@ class TestPulsoDetailView(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data['is_active'])
+
+    def test_detail_pulso_when_is_closed(self):
+        pulso = mommy.make(Pulso, is_closed=True)
+        lat, long = [-8.2777392, -8.2777392]
+
+        response = self.client.get(
+            '/pulsos/{pulso_id}/?coords={lat},{long}'.format(
+                pulso_id=pulso.pk,
+                lat=lat,
+                long=long,
+            )
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(response.data['is_active'])
+
+    def test_detail_pulso_when_is_canceled(self):
+        pulso = mommy.make(Pulso, is_canceled=True)
+        lat, long = [-8.2777392, -8.2777392]
+
+        response = self.client.get(
+            '/pulsos/{pulso_id}/?coords={lat},{long}'.format(
+                pulso_id=pulso.pk,
+                lat=lat,
+                long=long,
+            )
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(response.data['is_active'])
