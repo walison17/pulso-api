@@ -29,3 +29,6 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+    def __str__(self):
+        return f'comentário feito por {self.author}'

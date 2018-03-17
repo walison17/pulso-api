@@ -1,6 +1,5 @@
 from rest_framework.generics import (ListAPIView, CreateAPIView,
-                                     RetrieveAPIView, DestroyAPIView,
-                                     RetrieveDestroyAPIView)
+                                     RetrieveAPIView, RetrieveDestroyAPIView)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -52,7 +51,9 @@ class PulsoDetailCancelView(RetrieveDestroyAPIView):
         return Pulso.objects.happening().created_by(self.request.user)
 
     def get_object(self):
-        queryset = self.filter_queryset(self.get_queryset())
+        queryset = self.filter_queryset(
+            self.get_queryset().prefetch_related('comments')
+        )
         if 'coords' in self.request.query_params:
             lat, long = self.request.query_params['coords'].split(',')
             current_location = Point(

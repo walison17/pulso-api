@@ -64,3 +64,20 @@ class TestPulsoSignals(APITestCase):
             )
         self.assertEqual(self.pulso.comments.count(), 1)
         self.assertEqual(self.pulso.created_by.notifications.count(), 1)
+
+    def test_shoudnt_notify_creator_when_he_comments_the_pulso(self):
+        with catch_signal(post_save, Comment) as handler:
+            comment = mommy.make('comments.Comment',
+                                 pulso=self.pulso,
+                                 author=self.pulso.created_by)
+            handler.assert_called_once_with(
+                sender=Comment,
+                instance=comment,
+                signal=post_save,
+                using='default',
+                update_fields=None,
+                raw=False,
+                created=True
+            )
+        self.assertEqual(self.pulso.comments.count(), 1)
+        self.assertEqual(self.pulso.created_by.notifications.count(), 0)

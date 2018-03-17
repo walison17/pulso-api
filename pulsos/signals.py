@@ -74,8 +74,9 @@ def save_cancellation_on_db(sender, pulso, **kwargs):
 
 @receiver(post_save, sender=Comment)
 def notify_creator_about_new_interaction(sender, instance, **kwargs):
-    creator_devices = FCMDevice.objects.filter(user=instance.pulso.created_by)
-    if creator_devices.exists():
+    pulso_creator = instance.pulso.created_by
+    creator_devices = FCMDevice.objects.filter(user=pulso_creator)
+    if pulso_creator != instance.author and creator_devices.exists():
         body = f'{instance.author.name} comentou seu pulso.'
         extra = {
             'body': body,
@@ -87,8 +88,10 @@ def notify_creator_about_new_interaction(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Comment)
 def save_interaction_on_db(sender, instance, **kwargs):
-    notify.send(
-        sender=instance.author,
-        recipient=instance.pulso.created_by,
-        verb='comentou seu pulso'
-    )
+    pulso_creator = instance.pulso.created_by
+    if pulso_creator != instance.author:
+        notify.send(
+            sender=instance.author,
+            recipient=instance.pulso.created_by,
+            verb='comentou seu pulso'
+        )
