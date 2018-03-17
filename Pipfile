@@ -23,20 +23,21 @@ djangorestframework = "*"
 django-extensions = "*"
 "django2.0" = {git = "git://github.com/adamyala/django-friendship.git"}
 django-rest-swagger = "*"
-model_mommy = "*"
+model-mommy = "*"
 django-push-notifications = "*"
 fcm-django = "*"
 raven = "*"
-factory_boy = "*"
+factory-boy = "*"
 django-notifications-hq = {git = "https://github.com/django-notifications/django-notifications"}
 
 
 [dev-packages]
 
 "flake8" = "*"
-Werkzeug = "*"
+werkzeug = "*"
 ipython = "*"
 django-extensions = "*"
 freezegun = "*"
 ipdb = "*"
 "autopep8" = "*"
+pytest = "*"

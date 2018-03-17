@@ -71,3 +71,11 @@ class Pulso(models.Model):
         self.is_closed = True
         self.save()
         closed_pulso.send(sender=self.__class__, pulso=self)
+
+    @property
+    def participants(self):
+        return [
+            p.author for p
+            in
+            self.comments.prefetch_related('author').exclude(author=self.created_by).distinct()
+        ]

@@ -75,3 +75,20 @@ class TestPulsoModel(TestCase):
 
         self.assertEqual(Pulso.objects.count(), 10)
         self.assertEqual(Pulso.objects.created_by(self.user).count(), 5)
+
+    def test_get_all_pulso_participants(self):
+        pulso = mommy.make('pulsos.Pulso', created_by=self.user)
+        participant_1 = mommy.make('accounts.User')
+        participant_2 = mommy.make('accounts.User')
+        mommy.make(
+            'comments.Comment', pulso=pulso, author=participant_1, _quantity=5
+        )
+        mommy.make(
+            'comments.Comment', pulso=pulso, author=participant_2, _quantity=5
+        )
+        mommy.make('comments.Comment', pulso=pulso, author=self.user)
+
+        self.assertIn(participant_1, pulso.participants)
+        self.assertIn(participant_2, pulso.participants)
+        self.assertNotIn(self.user, pulso.participants)
+        self.assertEqual(pulso.comments.count(), 11)
