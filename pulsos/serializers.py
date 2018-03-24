@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.gis.geos import Point
+from django.conf import settings
 
 from .models import Pulso
 from accounts.models import User
@@ -48,9 +49,9 @@ class PulsoSerializer(serializers.ModelSerializer):
         )
 
     def validate_radius(self, value):
-        if not value >= 25 or not value <= 1000:
+        if not value >= settings.PULSO_MIN_RADIUS or not value <= settings.PULSO_MAX_RADIUS:
             raise serializers.ValidationError(
-                'Distãncia deve ser entre 25 e 1000 metros.'
+                f'Distãncia deve ser entre {settings.PULSO_MIN_RADIUS} e {settings.PULSO_MAX_RADIUS} metros.'
             )
         return value
 

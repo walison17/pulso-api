@@ -137,6 +137,8 @@ DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 DEFAULT_USER_PASSWORD = 'pulso123456'
+PULSO_MIN_RADIUS = 25
+PULSO_MAX_RADIUS = 3000
 
 AUTH_USER_MODEL = 'accounts.User'
 
