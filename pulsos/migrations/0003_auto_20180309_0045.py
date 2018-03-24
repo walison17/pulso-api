@@ -4,10 +4,7 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
-    dependencies = [
-        ('pulsos', '0002_auto_20180306_0044'),
-    ]
+    dependencies = [('pulsos', '0002_auto_20180306_0044')]
 
     operations = [
         migrations.AddField(

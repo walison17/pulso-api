@@ -4,16 +4,10 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
-    dependencies = [
-        ('accounts', '0002_auto_20180207_0051'),
-    ]
+    dependencies = [('accounts', '0002_auto_20180207_0051')]
 
     operations = [
-        migrations.RemoveField(
-            model_name='user',
-            name='photo',
-        ),
+        migrations.RemoveField(model_name='user', name='photo'),
         migrations.AddField(
             model_name='user',
             name='photo_url',

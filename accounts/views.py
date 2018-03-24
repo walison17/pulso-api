@@ -1,6 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.postgres.search import (SearchQuery, SearchVector,
-                                            SearchRank)
+from django.contrib.postgres.search import (SearchQuery, SearchVector, SearchRank)
 
 from rest_framework import serializers
 from rest_framework import status
@@ -17,8 +16,7 @@ from requests.exceptions import HTTPError
 from social_django.utils import psa
 
 from .models import User
-from .serializers import (UserSerializer, AuthUserSerializer,
-                          FacebookFriendSerializer)
+from .serializers import (UserSerializer, AuthUserSerializer, FacebookFriendSerializer)
 from relationships.serializers import FolloweeSerializer
 
 
@@ -38,13 +36,9 @@ def get_token(request, backend):
             user = request.backend.do_auth(access_token)
         except HTTPError as e:
             return Response(
-                {
-                    'errors': {
-                        'message': 'token inválido'
-                    }
-                },
-                status.HTTP_400_BAD_REQUEST
+                {'errors': {'message': 'token inválido'}}, status.HTTP_400_BAD_REQUEST
             )
+
         if user and user.is_active:
             token, _ = Token.objects.get_or_create(user=user)
             return Response({'token': str(token)})
@@ -56,10 +50,9 @@ def me(request):
     if request.method == 'GET':
         serializer = AuthUserSerializer(request.user)
         return Response(serializer.data)
+
     if request.method == 'PUT':
-        serializer = AuthUserSerializer(
-            request.user, data=request.data, partial=True
-        )
+        serializer = AuthUserSerializer(request.user, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -98,11 +91,14 @@ class UserViewSet(ReadOnlyModelViewSet):
     @list_route(methods=['get'], url_path='search')
     def search_user(self, request):
         vector = SearchVector('first_name', weight='A') + SearchVector(
-            'last_name', weight='B') + SearchVector('city', weight='C')
+            'last_name', weight='B'
+        ) + SearchVector(
+            'city', weight='C'
+        )
         query = SearchQuery(request.GET.get('q', None))
-        search_result = User.objects \
-            .annotate(rank=SearchRank(vector, query)) \
-            .order_by('-rank')
+        search_result = User.objects.annotate(rank=SearchRank(vector, query)).order_by(
+            '-rank'
+        )
 
         page = self.paginate_queryset(search_result)
         if page is not None:

@@ -4,16 +4,10 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
-    dependencies = [
-        ('pulsos', '0001_initial'),
-    ]
+    dependencies = [('pulsos', '0001_initial')]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='pulso',
-            options={'ordering': ['-ends_at']},
-        ),
+        migrations.AlterModelOptions(name='pulso', options={'ordering': ['-ends_at']}),
         migrations.AlterField(
             model_name='pulso',
             name='radius',

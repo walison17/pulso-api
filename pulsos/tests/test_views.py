@@ -23,11 +23,8 @@ class TestPulsoCreateView(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
         self.payload = {
             'description': 'descrição do pulso..',
-            'location': {
-                'lat': -8.278606,
-                'long': -35.972933
-            },
-            'radius': 150
+            'location': {'lat': -8.278606, 'long': -35.972933},
+            'radius': 150,
         }
 
     def test_create_new_pulso(self):
@@ -39,61 +36,40 @@ class TestPulsoCreateView(APITestCase):
             '/pulsos/', self.payload, format='json'
         )
 
-        self.assertEqual(response_from_first_creation.status_code,
-                         status.HTTP_201_CREATED)
+        self.assertEqual(
+            response_from_first_creation.status_code, status.HTTP_201_CREATED
+        )
         self.assertEqual(Pulso.objects.created_by(self.user).count(), 1)
 
         response_from_second_creation = self.client.post(
             '/pulsos/', self.payload, format='json'
         )
 
-        self.assertEqual(response_from_second_creation.status_code,
-                         status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            response_from_second_creation.status_code, status.HTTP_400_BAD_REQUEST
+        )
         self.assertEqual(Pulso.objects.created_by(self.user).count(), 1)
 
 
 class TestPulsoList(APITestCase):
 
     def setUp(self):
-        self.user_location = {
-            'lat': -8.278606,
-            'long': -35.972933
-        }
+        self.user_location = {'lat': -8.278606, 'long': -35.972933}
         self.factory = APIRequestFactory()
         self.view = PulsoListView.as_view()
 
     def test_retrive_available_pulsos(self):
-        mommy.make(
-            Pulso,
-            location=SHOPPING_DIFUSORA,
-            radius=1000,
-            _quantity=6
-        )
-        mommy.make(
-            Pulso,
-            location=ARMAZEM_DA_CRIATIVDADE,
-            radius=50,
-            _quantity=5
-        )
+        mommy.make(Pulso, location=SHOPPING_DIFUSORA, radius=1000, _quantity=6)
+        mommy.make(Pulso, location=ARMAZEM_DA_CRIATIVDADE, radius=50, _quantity=5)
         request = self.factory.get('/pulsos')
-        response = self.view(request, **self.user_location)
+        response = self.view(request, ** self.user_location)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 6)
 
     def test_get_available_pulsos(self):
-        mommy.make(
-            Pulso,
-            location=SHOPPING_DIFUSORA,
-            radius=1000,
-            _quantity=5
-        )
-        mommy.make(
-            Pulso,
-            location=ARMAZEM_DA_CRIATIVDADE,
-            radius=50,
-            _quantity=10
-        )
+        mommy.make(Pulso, location=SHOPPING_DIFUSORA, radius=1000, _quantity=5)
+        mommy.make(Pulso, location=ARMAZEM_DA_CRIATIVDADE, radius=50, _quantity=10)
 
         response = self.client.get(
             '/pulsos/{}/{}/'.format(*self.user_location.values())
@@ -106,20 +82,10 @@ class TestPulsoList(APITestCase):
     def test_get_only_pulsos_not_expired(self):
         with mock.patch(
             'pulsos.models.timezone.now',
-            return_value=datetime.datetime.now() - datetime.timedelta(hours=3)
+            return_value=datetime.datetime.now() - datetime.timedelta(hours=3),
         ):
-            mommy.make(
-                Pulso,
-                location=SHOPPING_DIFUSORA,
-                radius=500,
-                _quantity=5
-            )
-        mommy.make(
-            Pulso,
-            location=SHOPPING_DIFUSORA,
-            radius=500,
-            _quantity=5
-        )
+            mommy.make(Pulso, location=SHOPPING_DIFUSORA, radius=500, _quantity=5)
+        mommy.make(Pulso, location=SHOPPING_DIFUSORA, radius=500, _quantity=5)
 
         response = self.client.get(
             '/pulsos/{}/{}/'.format(*self.user_location.values())
@@ -148,9 +114,7 @@ class TestCancelAndCloseView(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Pulso.objects.created_by(self.user).count(), 1)
-        self.assertEqual(
-            Pulso.objects.canceled().created_by(self.user).count(), 1
-        )
+        self.assertEqual(Pulso.objects.canceled().created_by(self.user).count(), 1)
 
     def test_throw_error_when_try_to_cancel_a_pulso_from_another_user(self):
         pulso_from_another_user = mommy.make(Pulso)
@@ -174,9 +138,7 @@ class TestCancelAndCloseView(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(
-            Pulso.objects.created_by(self.user).closed().count(), 1
-        )
+        self.assertEqual(Pulso.objects.created_by(self.user).closed().count(), 1)
 
     def test_trow_error_when_try_to_close_a_pulso_from_another_user(self):
         pulso_from_another_user = mommy.make(Pulso)
@@ -185,9 +147,7 @@ class TestCancelAndCloseView(APITestCase):
         self.assertEqual(Pulso.objects.created_by(self.user).count(), 0)
 
         response = self.client.get(
-            '/pulsos/{pulso_id}/close/'.format(
-                pulso_id=pulso_from_another_user.pk
-            )
+            '/pulsos/{pulso_id}/close/'.format(pulso_id=pulso_from_another_user.pk)
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -206,9 +166,7 @@ class TestPulsoDetailView(APITestCase):
 
         response = self.client.get(
             '/pulsos/{pulso_id}/?coords={lat},{long}'.format(
-                pulso_id=pulso.pk,
-                lat=lat,
-                long=long,
+                pulso_id=pulso.pk, lat=lat, long=long
             )
         )
 
@@ -221,9 +179,7 @@ class TestPulsoDetailView(APITestCase):
 
         response = self.client.get(
             '/pulsos/{pulso_id}/?coords={lat},{long}'.format(
-                pulso_id=pulso.pk,
-                lat=lat,
-                long=long,
+                pulso_id=pulso.pk, lat=lat, long=long
             )
         )
 
@@ -236,9 +192,7 @@ class TestPulsoDetailView(APITestCase):
 
         response = self.client.get(
             '/pulsos/{pulso_id}/?coords={lat},{long}'.format(
-                pulso_id=pulso.pk,
-                lat=lat,
-                long=long,
+                pulso_id=pulso.pk, lat=lat, long=long
             )
         )
 

@@ -14,6 +14,7 @@ def catch_signal(signal):
     handler = Mock()
     signal.connect(handler)
     yield handler
+
     signal.disconnect(handler)
 
 
@@ -33,7 +34,7 @@ class NotificationTest(TestCase):
                 sender=User,
                 follower=self.user,
                 followee=self.other_user,
-                signal=user_was_followed
+                signal=user_was_followed,
             )
 
         self.assertEqual(self.user.following.count(), 1)

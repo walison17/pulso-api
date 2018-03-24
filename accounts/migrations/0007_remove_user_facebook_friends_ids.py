@@ -4,14 +4,8 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
-    dependencies = [
-        ('accounts', '0006_user_facebook_friends_ids'),
-    ]
+    dependencies = [('accounts', '0006_user_facebook_friends_ids')]
 
     operations = [
-        migrations.RemoveField(
-            model_name='user',
-            name='facebook_friends_ids',
-        ),
+        migrations.RemoveField(model_name='user', name='facebook_friends_ids')
     ]

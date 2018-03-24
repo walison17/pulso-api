@@ -5,15 +5,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
-    dependencies = [
-        ('accounts', '0008_auto_20180221_2103'),
-    ]
+    dependencies = [('accounts', '0008_auto_20180221_2103')]
 
     operations = [
         migrations.AlterField(
             model_name='user',
             name='facebook_friends_ids',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.PositiveIntegerField(), blank=True, null=True, size=None),
-        ),
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.PositiveIntegerField(),
+                blank=True,
+                null=True,
+                size=None,
+            ),
+        )
     ]

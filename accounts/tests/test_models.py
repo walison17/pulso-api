@@ -22,18 +22,8 @@ class TestAccountModels(APITestCase):
     def test_get_all_interacted_pulsos(self):
         pulso1 = mommy.make('pulsos.Pulso')
         pulso2 = mommy.make('pulsos.Pulso')
-        mommy.make(
-            'comments.Comment',
-            pulso=pulso1,
-            author=self.user,
-            _quantity=5
-        )
-        mommy.make(
-            'comments.Comment',
-            pulso=pulso2,
-            author=self.user,
-            _quantity=5
-        )
+        mommy.make('comments.Comment', pulso=pulso1, author=self.user, _quantity=5)
+        mommy.make('comments.Comment', pulso=pulso2, author=self.user, _quantity=5)
 
         self.assertEqual(self.user.participated_pulsos.count(), 2)
         self.assertEqual(self.user.comments.count(), 10)

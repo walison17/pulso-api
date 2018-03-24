@@ -6,15 +6,16 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
-    dependencies = [
-        ('pulsos', '0003_auto_20180309_0045'),
-    ]
+    dependencies = [('pulsos', '0003_auto_20180309_0045')]
 
     operations = [
         migrations.AlterField(
             model_name='pulso',
             name='created_by',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='pulsos', to=settings.AUTH_USER_MODEL),
-        ),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='pulsos',
+                to=settings.AUTH_USER_MODEL,
+            ),
+        )
     ]

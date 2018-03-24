@@ -31,20 +31,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'raven.contrib.django.raven_compat',
     'django.contrib.gis',
-
     'rest_framework',
     'rest_framework.authtoken',
     'social_django',
     'fcm_django',
     'django_extensions',
     'notifications',
-
     'accounts',
     'relationships',
     'push_notifications',
     'pulsos',
     'comments',
-    'core'
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -72,9 +70,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+            ]
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = 'pulso.wsgi.application'
@@ -84,7 +82,11 @@ WSGI_APPLICATION = 'pulso.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': config('DATABASE_URL', default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'), cast=db_url)
+    'default': config(
+        'DATABASE_URL',
+        default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
+        cast=db_url,
+    )
 }
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
@@ -94,17 +96,11 @@ DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 
@@ -152,17 +148,19 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100
+    'PAGE_SIZE': 100,
 }
 
 SOCIAL_AUTH_USER_MODEL = 'accounts.User'
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY')
 SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_friends', 'user_about_me', 'user_location']
+SOCIAL_AUTH_FACEBOOK_SCOPE = [
+    'email', 'public_profile', 'user_friends', 'user_about_me', 'user_location'
+]
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'locale': 'pt_BR',
-    'fields': 'id,name,email,gender,about,first_name,last_name,link,friends,location{location}'
+    'fields': 'id,name,email,gender,about,first_name,last_name,link,friends,location{location}',
 }
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
@@ -174,59 +172,45 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
     'social_core.pipeline.social_auth.associate_by_email',
-    'accounts.pipeline.update_user'
+    'accounts.pipeline.update_user',
 )
 
-FCM_DJANGO_SETTINGS = {
-    'FCM_SERVER_KEY': config('FCM_SERVER_KEY'),
-}
+FCM_DJANGO_SETTINGS = {'FCM_SERVER_KEY': config('FCM_SERVER_KEY')}
 
 RAVEN_CONFIG = {
-    'dsn': 'https://c786ab8eecc84e228938bd23d6a2fa56:318e6943b2dc4a37a4f9a27a01539280@sentry.io/293664',
+    'dsn': 'https://c786ab8eecc84e228938bd23d6a2fa56:318e6943b2dc4a37a4f9a27a01539280@sentry.io/293664'
 }
 
 if not DEBUG:
-
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': True,
-        'root': {
-            'level': 'WARNING',
-            'handlers': ['sentry'],
-        },
+        'root': {'level': 'WARNING', 'handlers': ['sentry']},
         'formatters': {
             'verbose': {
                 'format': '%(levelname)s %(asctime)s %(module)s '
-                        '%(process)d %(thread)d %(message)s'
-            },
+                '%(process)d %(thread)d %(message)s'
+            }
         },
         'handlers': {
             'sentry': {
-                'level': 'ERROR', # To capture more than ERROR, change to WARNING, INFO, etc.
+                'level': 'ERROR',  # To capture more than ERROR, change to WARNING, INFO, etc.
                 'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
                 'tags': {'custom-tag': 'x'},
             },
             'console': {
                 'level': 'DEBUG',
                 'class': 'logging.StreamHandler',
-                'formatter': 'verbose'
-            }
+                'formatter': 'verbose',
+            },
         },
         'loggers': {
             'django.db.backends': {
-                'level': 'ERROR',
-                'handlers': ['console'],
-                'propagate': False,
+                'level': 'ERROR', 'handlers': ['console'], 'propagate': False
             },
-            'raven': {
-                'level': 'DEBUG',
-                'handlers': ['console'],
-                'propagate': False,
-            },
+            'raven': {'level': 'DEBUG', 'handlers': ['console'], 'propagate': False},
             'sentry.errors': {
-                'level': 'DEBUG',
-                'handlers': ['console'],
-                'propagate': False,
+                'level': 'DEBUG', 'handlers': ['console'], 'propagate': False
             },
         },
     }

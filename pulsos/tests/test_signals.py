@@ -16,6 +16,7 @@ def catch_signal(signal, sender=None):
     handler = Mock()
     signal.connect(handler, sender=sender)
     yield handler
+
     signal.disconnect(handler)
 
 
@@ -29,9 +30,7 @@ class TestPulsoSignals(APITestCase):
             comment = mommy.make('comments.Comment', pulso=self.pulso)
             self.pulso.cancel()
             handler.assert_called_once_with(
-                sender=Pulso,
-                pulso=self.pulso,
-                signal=canceled_pulso
+                sender=Pulso, pulso=self.pulso, signal=canceled_pulso
             )
         self.assertEqual(
             Notification.objects.filter(recipient=comment.author).count(), 1
@@ -42,9 +41,7 @@ class TestPulsoSignals(APITestCase):
             comment = mommy.make('comments.Comment', pulso=self.pulso)
             self.pulso.close()
             handler.assert_called_once_with(
-                sender=Pulso,
-                pulso=self.pulso,
-                signal=closed_pulso
+                sender=Pulso, pulso=self.pulso, signal=closed_pulso
             )
         self.assertEqual(
             Notification.objects.filter(recipient=comment.author).count(), 1
@@ -60,16 +57,16 @@ class TestPulsoSignals(APITestCase):
                 using='default',
                 update_fields=None,
                 raw=False,
-                created=True
+                created=True,
             )
         self.assertEqual(self.pulso.comments.count(), 1)
         self.assertEqual(self.pulso.created_by.notifications.count(), 1)
 
     def test_shoudnt_notify_creator_when_he_comments_the_pulso(self):
         with catch_signal(post_save, Comment) as handler:
-            comment = mommy.make('comments.Comment',
-                                 pulso=self.pulso,
-                                 author=self.pulso.created_by)
+            comment = mommy.make(
+                'comments.Comment', pulso=self.pulso, author=self.pulso.created_by
+            )
             handler.assert_called_once_with(
                 sender=Comment,
                 instance=comment,
@@ -77,7 +74,7 @@ class TestPulsoSignals(APITestCase):
                 using='default',
                 update_fields=None,
                 raw=False,
-                created=True
+                created=True,
             )
         self.assertEqual(self.pulso.comments.count(), 1)
         self.assertEqual(self.pulso.created_by.notifications.count(), 0)

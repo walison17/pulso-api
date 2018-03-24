@@ -10,13 +10,11 @@ class CommentListCreateView(ListCreateAPIView):
     serializer_class = CommentSerializer
     queryset = Pulso.objects.happening()
     lookup_url_kwarg = 'pk'
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         pulso = self.get_object()
-        serializer = serializer.save(
-            author=self.request.user, pulso=pulso
-        )
+        serializer = serializer.save(author=self.request.user, pulso=pulso)
         super().perform_create(serializer)
 
     def list(self, request, *args, **kwargs):

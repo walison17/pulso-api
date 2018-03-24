@@ -35,12 +35,11 @@ class NotificationViewSet(ModelViewSet):
         notifications = user.notifications.all()
         if query:
             return notifications.filter(unread=query)
+
         return notifications
 
     @list_route(methods=['post'], url_path='mark_as_read')
     def mark_as_read(self, request):
         user = self.request.user
-        user.notifications \
-            .filter(timestamp__lt=timezone.now()) \
-            .mark_all_as_read()
+        user.notifications.filter(timestamp__lt=timezone.now()).mark_all_as_read()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -22,9 +22,7 @@ class User(AbstractUser, FirebaseDeviceMixin):
         through='relationships.Follow',
         related_name='followers',
     )
-    facebook_friends_ids = ArrayField(
-        models.BigIntegerField(), blank=True, null=True
-    )
+    facebook_friends_ids = ArrayField(models.BigIntegerField(), blank=True, null=True)
 
     @property
     def name(self):
@@ -32,9 +30,7 @@ class User(AbstractUser, FirebaseDeviceMixin):
 
     def follow(self, user):
         """"Segue um novo usuário"""
-        user_was_followed.send(
-            sender=self.__class__, follower=self, followee=user
-        )
+        user_was_followed.send(sender=self.__class__, follower=self, followee=user)
         return Follow.objects.create(from_user=self, to_user=user)
 
     def follows(self, user):

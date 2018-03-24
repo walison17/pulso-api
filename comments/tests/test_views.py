@@ -6,9 +6,7 @@ from model_mommy import mommy
 
 from ..models import Comment
 
-COMMENT_PAYLOAD = {
-    'text': 'comentário..'
-}
+COMMENT_PAYLOAD = {'text': 'comentário..'}
 
 
 class AuthenticatedMixin:
@@ -24,11 +22,9 @@ class TestCommentCreateView(AuthenticatedMixin, APITestCase):
 
     def test_create_comment(self):
         response = self.client.post(
-            '/pulsos/{pulso_id}/comments/'.format(
-                pulso_id=self.pulso.pk
-            ),
+            '/pulsos/{pulso_id}/comments/'.format(pulso_id=self.pulso.pk),
             data=COMMENT_PAYLOAD,
-            format='json'
+            format='json',
         )
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -38,11 +34,9 @@ class TestCommentCreateView(AuthenticatedMixin, APITestCase):
     def test_thown_error_when_post_comment_on_canceled_pulso(self):
         canceled_pulso = mommy.make('pulsos.Pulso', is_canceled=True)
         response = self.client.post(
-            '/pulsos/{pulso_id}/comments/'.format(
-                pulso_id=canceled_pulso.pk
-            ),
+            '/pulsos/{pulso_id}/comments/'.format(pulso_id=canceled_pulso.pk),
             data=COMMENT_PAYLOAD,
-            format='json'
+            format='json',
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -51,11 +45,9 @@ class TestCommentCreateView(AuthenticatedMixin, APITestCase):
     def test_throw_404_when_post_comment_on_closed_pulso(self):
         closed_pulso = mommy.make('pulsos.Pulso', is_closed=True)
         response = self.client.post(
-            '/pulsos/{pulso_id}/comments/'.format(
-                pulso_id=closed_pulso.pk
-            ),
+            '/pulsos/{pulso_id}/comments/'.format(pulso_id=closed_pulso.pk),
             data=COMMENT_PAYLOAD,
-            format='json'
+            format='json',
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -63,11 +55,9 @@ class TestCommentCreateView(AuthenticatedMixin, APITestCase):
 
     def test_throw_validation_error_when_send_blank_message(self):
         response = self.client.post(
-            '/pulsos/{pulso_id}/comments/'.format(
-                pulso_id=self.pulso.pk
-            ),
+            '/pulsos/{pulso_id}/comments/'.format(pulso_id=self.pulso.pk),
             data={'text': ''},
-            format='json'
+            format='json',
         )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -89,9 +79,7 @@ class TestCommentListView(AuthenticatedMixin, APITestCase):
     def test_throw_404_on_get_comments_from_canceled_pulso(self):
         canceled_pulso = mommy.make('pulsos.Pulso', is_canceled=True)
         response = self.client.get(
-            '/pulsos/{pulso_id}/comments/'.format(
-                pulso_id=canceled_pulso.pk
-            )
+            '/pulsos/{pulso_id}/comments/'.format(pulso_id=canceled_pulso.pk)
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

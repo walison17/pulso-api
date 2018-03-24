@@ -16,7 +16,7 @@ PAYLOAD = {
     'state': 'pe',
     'country': 'Brasil',
     'photo_url': 'foto_perfil.jpeg',
-    'facebook_url': 'facebook.com/walison.filipe'
+    'facebook_url': 'facebook.com/walison.filipe',
 }
 
 
@@ -24,10 +24,7 @@ class TestAccountSerializer(APITestCase):
 
     def setUp(self):
         self.user = mommy.make(
-            User,
-            first_name='walison',
-            last_name='mendes',
-            make_m2m=True
+            User, first_name='walison', last_name='mendes', make_m2m=True
         )
 
     def test_contains_expected_number_of_created_pulsos(self):

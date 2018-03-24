@@ -10,7 +10,6 @@ from ..models import Pulso
 
 
 class TestPulsoModel(TestCase):
-
     SHOPPING_DIFUSORA = Point([-8.2777392, -8.2777392])
     ARMAZEM_DA_CRIATIVDADE = Point([-8.238869, -35.980656])
 
@@ -22,7 +21,7 @@ class TestPulsoModel(TestCase):
             created_by=self.user,
             location=self.SHOPPING_DIFUSORA,
             radius=100,
-            description='descrição do pulso..'
+            description='descrição do pulso..',
         )
 
         self.assertEqual(Pulso.objects.count(), 1)
@@ -33,15 +32,12 @@ class TestPulsoModel(TestCase):
         mock_now.return_value = datetime.datetime(2018, 11, 15, hour=15)
         pulso = mommy.make(Pulso)
 
-        self.assertEqual(
-            pulso.ends_at,
-            datetime.datetime(2018, 11, 15, hour=16)
-        )
+        self.assertEqual(pulso.ends_at, datetime.datetime(2018, 11, 15, hour=16))
 
     def test_retrive_only_pulsos_that_are_happening_now(self):
         with mock.patch(
             'pulsos.models.timezone.now',
-            return_value=datetime.datetime(2017, 11, 15, hour=15)
+            return_value=datetime.datetime(2017, 11, 15, hour=15),
         ):
             mommy.make(Pulso, _quantity=2)
 
@@ -51,17 +47,8 @@ class TestPulsoModel(TestCase):
 
     @skip('escapando bug do geoDjango')
     def test_retrieve_pulsos_available_in_my_area(self):
-        mommy.make(
-            Pulso,
-            location=self.SHOPPING_DIFUSORA,
-            radius=1000,
-            _quantity=2
-        )
-        mommy.make(
-            Pulso,
-            location=self.ARMAZEM_DA_CRIATIVDADE,
-            _quantity=2
-        )
+        mommy.make(Pulso, location=self.SHOPPING_DIFUSORA, radius=1000, _quantity=2)
+        mommy.make(Pulso, location=self.ARMAZEM_DA_CRIATIVDADE, _quantity=2)
 
         self.assertEqual(Pulso.objects.all().count(), 4)
 
@@ -80,12 +67,8 @@ class TestPulsoModel(TestCase):
         pulso = mommy.make('pulsos.Pulso', created_by=self.user)
         participant_1 = mommy.make('accounts.User')
         participant_2 = mommy.make('accounts.User')
-        mommy.make(
-            'comments.Comment', pulso=pulso, author=participant_1, _quantity=5
-        )
-        mommy.make(
-            'comments.Comment', pulso=pulso, author=participant_2, _quantity=5
-        )
+        mommy.make('comments.Comment', pulso=pulso, author=participant_1, _quantity=5)
+        mommy.make('comments.Comment', pulso=pulso, author=participant_2, _quantity=5)
         mommy.make('comments.Comment', pulso=pulso, author=self.user)
 
         self.assertIn(participant_1, pulso.participants)
@@ -112,7 +95,7 @@ class TestPulsoModel(TestCase):
     def test_pulso_is_not_active_when_not_happening(self):
         with mock.patch(
             'pulsos.models.timezone.now',
-            return_value=datetime.datetime.now() - datetime.timedelta(hours=5)
+            return_value=datetime.datetime.now() - datetime.timedelta(hours=5),
         ):
             pulso = mommy.make('pulsos.Pulso')
         self.assertFalse(pulso.is_active())

@@ -7,6 +7,7 @@ def create_user(backend, details, response, user=None, *args, **kwargs):
     """Cria um novo usuário com os dados provenientes da api do facebook"""
     if user:
         return {'is_new': False}
+
     location = response['location']['location']
     user = User.objects.create_user(
         facebook_id=response['id'],
@@ -24,14 +25,9 @@ def create_user(backend, details, response, user=None, *args, **kwargs):
         state=location['state'],
         country=location['country'],
         facebook_url=response['link'],
-        facebook_friends_ids=[
-            friend['id'] for friend in response['friends']['data']
-        ]
+        facebook_friends_ids=[friend['id'] for friend in response['friends']['data']],
     )
-    return {
-        'is_new': True,
-        'user': user
-    }
+    return {'is_new': True, 'user': user}
 
 
 def update_user(backend, response, details, user=None, *args, **kwargs):

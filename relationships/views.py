@@ -16,6 +16,7 @@ class FollowingView(ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return FollowSerializer
+
         return FolloweeSerializer
 
     def perform_create(self, serializer):

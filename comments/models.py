@@ -13,14 +13,10 @@ class CommentQueryset(models.QuerySet):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='comments'
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments'
     )
     pulso = models.ForeignKey(
-        to='pulsos.Pulso',
-        on_delete=models.CASCADE,
-        related_name='comments'
+        to='pulsos.Pulso', on_delete=models.CASCADE, related_name='comments'
     )
     text = models.CharField(max_length=145)
     created_at = models.DateTimeField(auto_now_add=True)

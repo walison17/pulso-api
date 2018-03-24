@@ -5,16 +5,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
-    dependencies = [
-        ('accounts', '0007_remove_user_facebook_friends_ids'),
-    ]
+    dependencies = [('accounts', '0007_remove_user_facebook_friends_ids')]
 
     operations = [
         migrations.AddField(
             model_name='user',
             name='facebook_friends_ids',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(), blank=True, null=True, size=None),
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.IntegerField(), blank=True, null=True, size=None
+            ),
         ),
         migrations.AlterField(
             model_name='user',

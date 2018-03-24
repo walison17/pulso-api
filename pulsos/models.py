@@ -18,14 +18,19 @@ class PulsoQueryset(models.QuerySet):
         return self.filter(created_by=user)
 
     def happening(self):
-        return self.filter(ends_at__gte=timezone.now(),
-                           is_closed=False, is_canceled=False)
+        return self.filter(
+            ends_at__gte=timezone.now(), is_closed=False, is_canceled=False
+        )
 
     def available_for(self, lat, long):
         current_user_location = Point(lat, long, srid=DEFAULT_SRID)
         return self.annotate(
             distance=Distance('location', current_user_location)
-        ).filter(distance__lte=F('radius')).order_by('-distance')
+        ).filter(
+            distance__lte=F('radius')
+        ).order_by(
+            '-distance'
+        )
 
     def canceled(self):
         return self.filter(is_canceled=True)
@@ -39,17 +44,13 @@ class PulsoQueryset(models.QuerySet):
 
 class Pulso(models.Model):
     created_by = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='pulsos'
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='pulsos'
     )
     description = models.CharField(max_length=140)
     created_at = models.DateTimeField(auto_now_add=True)
     ends_at = models.DateTimeField()
     location = models.PointField()
-    radius = models.IntegerField(
-        default=10, help_text='distância em metros'
-    )
+    radius = models.IntegerField(default=10, help_text='distância em metros')
     is_closed = models.BooleanField(default=False)
     is_canceled = models.BooleanField(default=False)
 
@@ -73,14 +74,13 @@ class Pulso(models.Model):
         closed_pulso.send(sender=self.__class__, pulso=self)
 
     def is_active(self):
-        return not self.is_closed \
-            and not self.is_canceled \
-            and timezone.now() <= self.ends_at
+        return not self.is_closed and not self.is_canceled and timezone.now() <= self.ends_at
 
     @property
     def participants(self):
         return [
-            p.author for p
-            in
-            self.comments.prefetch_related('author').exclude(author=self.created_by).distinct()
+            p.author
+            for p in self.comments.prefetch_related('author').exclude(
+                author=self.created_by
+            ).distinct()
         ]

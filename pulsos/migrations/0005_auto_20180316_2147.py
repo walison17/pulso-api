@@ -4,14 +4,8 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
-    dependencies = [
-        ('pulsos', '0004_auto_20180309_2234'),
-    ]
+    dependencies = [('pulsos', '0004_auto_20180309_2234')]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='pulso',
-            options={'ordering': ['ends_at']},
-        ),
+        migrations.AlterModelOptions(name='pulso', options={'ordering': ['ends_at']})
     ]

@@ -15,12 +15,32 @@ class AuthUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'first_name', 'last_name', 'photo_url',
-                  'facebook_url', 'gender', 'city', 'state', 'country',
-                  'about', 'following_count', 'followers_count',
-                  'created_pulsos_count', 'participated_pulsos_count')
-        read_only_fields = ('id', 'email', 'first_name', 'last_name',
-                            'gender', 'facebook_url', 'photo_url',)
+        fields = (
+            'id',
+            'email',
+            'first_name',
+            'last_name',
+            'photo_url',
+            'facebook_url',
+            'gender',
+            'city',
+            'state',
+            'country',
+            'about',
+            'following_count',
+            'followers_count',
+            'created_pulsos_count',
+            'participated_pulsos_count',
+        )
+        read_only_fields = (
+            'id',
+            'email',
+            'first_name',
+            'last_name',
+            'gender',
+            'facebook_url',
+            'photo_url',
+        )
 
     def get_following_count(self, obj):
         return obj.following.count()
@@ -53,9 +73,7 @@ class FacebookFriendSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = (
-            'id', 'first_name', 'last_name', 'photo_url', 'followed_by_me',
-        )
+        fields = ('id', 'first_name', 'last_name', 'photo_url', 'followed_by_me')
 
     def get_followed_by_me(self, obj):
         user = self.context['request'].user

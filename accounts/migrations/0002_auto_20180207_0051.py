@@ -4,16 +4,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
-    dependencies = [
-        ('accounts', '0001_initial'),
-    ]
+    dependencies = [('accounts', '0001_initial')]
 
     operations = [
         migrations.AddField(
             model_name='user',
             name='about',
-            field=models.TextField(blank=True, null=True, verbose_name='Descrição do usuário'),
+            field=models.TextField(
+                blank=True, null=True, verbose_name='Descrição do usuário'
+            ),
         ),
         migrations.AddField(
             model_name='user',
@@ -33,7 +32,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='photo',
-            field=models.URLField(blank=True, max_length=150, null=True, verbose_name='Foto do perfil'),
+            field=models.URLField(
+                blank=True, max_length=150, null=True, verbose_name='Foto do perfil'
+            ),
         ),
         migrations.AddField(
             model_name='user',

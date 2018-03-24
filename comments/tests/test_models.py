@@ -34,9 +34,5 @@ class TestCommentModels(APITestCase):
         self.assertEqual(Comment.objects.count(), 15)
         self.assertEqual(Comment.objects.posted_on(other_pulso).count(), 10)
         self.assertEqual(
-            Comment.objects
-            .posted_on(self.pulso)
-            .created_by(self.user)
-            .count(),
-            5
+            Comment.objects.posted_on(self.pulso).created_by(self.user).count(), 5
         )

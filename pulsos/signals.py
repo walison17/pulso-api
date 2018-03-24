@@ -18,46 +18,32 @@ def send_notification(devices, body, data):
         icon='notification_icon',
         sound='default',
         color='#6f41bf',
-        data=data
+        data=data,
     )
 
 
 @receiver(closed_pulso)
 def notify_users_about_closement(sender, pulso, **kwargs):
-    participants_devices = FCMDevice.objects.filter(
-        user__in=pulso.participants
-    )
+    participants_devices = FCMDevice.objects.filter(user__in=pulso.participants)
     if participants_devices.exists():
         body = f'{pulso.created_by.name} correspondeu o pulso.'
-        extra = {
-            'body': body,
-            'notification_type': 'CLOSEMENT',
-            'object_id': pulso.id
-        }
+        extra = {'body': body, 'notification_type': 'CLOSEMENT', 'object_id': pulso.id}
         send_notification(participants_devices, body, extra)
 
 
 @receiver(closed_pulso)
 def save_closement_on_db(sender, pulso, **kwargs):
     for p in pulso.participants:
-        notify.send(
-            sender=pulso.created_by,
-            recipient=p,
-            verb='correspondeu o pulso.'
-        )
+        notify.send(sender=pulso.created_by, recipient=p, verb='correspondeu o pulso.')
 
 
 @receiver(canceled_pulso)
 def notify_users_about_cancellation(sender, pulso, **kwargs):
-    participants_devices = FCMDevice.objects.filter(
-        user__in=pulso.participants
-    )
+    participants_devices = FCMDevice.objects.filter(user__in=pulso.participants)
     if participants_devices.exists():
         body = f'{pulso.created_by.name} cancelou o pulso.'
         extra = {
-            'body': body,
-            'notification_type': 'CANCELLATION',
-            'object_id': pulso.id
+            'body': body, 'notification_type': 'CANCELLATION', 'object_id': pulso.id
         }
         send_notification(participants_devices, body, extra)
 
@@ -65,11 +51,7 @@ def notify_users_about_cancellation(sender, pulso, **kwargs):
 @receiver(canceled_pulso)
 def save_cancellation_on_db(sender, pulso, **kwargs):
     for p in pulso.participants:
-        notify.send(
-            sender=pulso.created_by,
-            recipient=p,
-            verb='cancelou o pulso.'
-        )
+        notify.send(sender=pulso.created_by, recipient=p, verb='cancelou o pulso.')
 
 
 @receiver(post_save, sender=Comment)
@@ -81,7 +63,7 @@ def notify_creator_about_new_interaction(sender, instance, **kwargs):
         extra = {
             'body': body,
             'notification_type': 'INTERACTION',
-            'object_id': instance.pulso.id
+            'object_id': instance.pulso.id,
         }
         send_notification(creator_devices, body, extra)
 
@@ -93,5 +75,5 @@ def save_interaction_on_db(sender, instance, **kwargs):
         notify.send(
             sender=instance.author,
             recipient=instance.pulso.created_by,
-            verb='comentou seu pulso'
+            verb='comentou seu pulso',
         )

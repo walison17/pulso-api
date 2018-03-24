@@ -12,9 +12,7 @@ def notify_new_follower(sender, follower, followee, **kwargs):
     if devices.exists():
         body = f'{follower.name} seguiu você'
         extra = {
-            'body': body,
-            'notification_type': 'follower',
-            'object_id': follower.id,
+            'body': body, 'notification_type': 'follower', 'object_id': follower.id
         }
         devices.send_message(
             title='Pulso',
@@ -22,7 +20,7 @@ def notify_new_follower(sender, follower, followee, **kwargs):
             icon='notification_icon',
             sound='default',
             color='#6f41bf',
-            data=extra
+            data=extra,
         )
 
 

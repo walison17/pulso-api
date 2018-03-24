@@ -5,9 +5,7 @@ from model_mommy import mommy
 from ..models import Comment
 from ..serializers import CommentSerializer, AuthorSerializer
 
-PAYLOAD = {
-    'text': 'meu comentário'
-}
+PAYLOAD = {'text': 'meu comentário'}
 
 
 class TestCommentSerializer(APITestCase):
@@ -21,12 +19,13 @@ class TestCommentSerializer(APITestCase):
         self.assertEqual(serializer.data['id'], self.comment.id)
         self.assertEqual(serializer.data['text'], self.comment.text)
         self.assertEqual(
-            serializer.data['author'], {
+            serializer.data['author'],
+            {
                 'id': self.comment.author.id,
                 'first_name': self.comment.author.first_name,
                 'last_name': self.comment.author.last_name,
-                'photo_url': self.comment.author.photo_url
-            }
+                'photo_url': self.comment.author.photo_url,
+            },
         )
 
     def test_deserialize_and_create_comment(self):
