@@ -1,8 +1,11 @@
-from rest_framework.generics import ListCreateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
+from django.shortcuts import get_object_or_404
+from rest_framework.generics import (
+    ListCreateAPIView, ListAPIView, DestroyAPIView
+)
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 
 from accounts.models import User
+
 from .models import Follow
 from .serializers import FolloweeSerializer, FollowSerializer
 
@@ -29,6 +32,22 @@ class FollowerView(ListAPIView):
 
     def get_queryset(self):
         return self.request.user.followers.all()
+
+
+class FollowerListView(ListAPIView):
+    serializer_class = FolloweeSerializer
+
+    def get_queryset(self):
+        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        return user.followers.all()
+
+
+class FollowingListView(ListAPIView):
+    serializer_class = FolloweeSerializer
+
+    def get_queryset(self):
+        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        return user.following.all()
 
 
 class UnfollowView(DestroyAPIView):

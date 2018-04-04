@@ -37,5 +37,6 @@ urlpatterns = [
             ]
         ),
     ),
+    path('users/', include('relationships.urls')),
     path('', include(router.urls)),
 ]
