@@ -29,6 +29,8 @@ fcm-django = "*"
 raven = "*"
 factory-boy = "*"
 django-notifications-hq = {git = "https://github.com/django-notifications/django-notifications"}
+black = "*"
+requests = "*"
 
 
 [dev-packages]
@@ -42,4 +44,3 @@ ipdb = "*"
 "autopep8" = "*"
 pytest = "*"
 pytest-django = "*"
-black = "*"

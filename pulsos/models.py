@@ -6,6 +6,9 @@ from django.db.models import F
 from django.contrib.gis.db.models.functions import Distance
 from django.conf import settings
 from django.utils import timezone
+from django.db.models import Subquery
+
+from accounts.models import User
 
 from .signals import canceled_pulso, closed_pulso
 
@@ -78,9 +81,15 @@ class Pulso(models.Model):
 
     @property
     def participants(self):
-        return [
-            p.author
-            for p in self.comments.prefetch_related('author').exclude(
-                author=self.created_by
-            ).distinct()
-        ]
+        comments = self.comments.exclude(
+            author__pk=self.created_by_id
+        )
+
+        return User.objects \
+            .filter(
+                pk__in=Subquery(
+                    comments.values_list('author', flat=True)
+                )
+            ) \
+            .distinct() \
+            .all()

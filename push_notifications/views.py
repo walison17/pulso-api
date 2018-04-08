@@ -1,5 +1,3 @@
-from fcm_django.api.rest_framework import FCMDeviceViewSet
-from django.db.models import Count, Q
 from django.utils import timezone
 
 from rest_framework.viewsets import ModelViewSet
@@ -11,6 +9,7 @@ from rest_framework import status
 from fcm_django.models import FCMDevice
 
 from .serializers import FirebaseDeviceSerializer, NotificationSerializer
+from .models import Device
 
 
 class FirebaseDeviceViewSet(ModelViewSet):
@@ -23,6 +22,17 @@ class FirebaseDeviceViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer = serializer.save(user=self.request.user)
         super(FirebaseDeviceViewSet, self).perform_create(serializer)
+
+
+class DeviceViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self):
+        return Device.objects.from_user(self.request.user)
+
+    def perform_create(self, serializer):
+        serializer = serializer.save(user=self.request.user)
+        return super(DeviceViewSet, self).perform_create(serializer)
 
 
 class NotificationViewSet(ModelViewSet):
@@ -41,5 +51,7 @@ class NotificationViewSet(ModelViewSet):
     @list_route(methods=['post'], url_path='mark_as_read')
     def mark_as_read(self, request):
         user = self.request.user
-        user.notifications.filter(timestamp__lt=timezone.now()).mark_all_as_read()
+        user.notifications \
+            .filter(timestamp__lt=timezone.now()) \
+            .mark_all_as_read()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -24,7 +24,9 @@ def send_notification(devices, body, data):
 
 @receiver(closed_pulso)
 def notify_users_about_closement(sender, pulso, **kwargs):
-    participants_devices = FCMDevice.objects.filter(user__in=pulso.participants)
+    participants_devices = FCMDevice.objects.filter(
+        user__in=pulso.participants
+    )
     if participants_devices.exists():
         body = f'{pulso.created_by.name} correspondeu o pulso.'
         extra = {'body': body, 'notification_type': 'CLOSEMENT', 'object_id': pulso.id}
