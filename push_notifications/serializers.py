@@ -30,7 +30,6 @@ class FirebaseDeviceSerializer(serializers.ModelSerializer):
 
 
 class DeviceSerializer(serializers.ModelSerializer):
-    device_type = serializers.CharField(source='get_device_type_display')
 
     class Meta:
         model = Device
