@@ -23,8 +23,7 @@ djangorestframework = "*"
 django-extensions = "*"
 "django2.0" = {git = "git://github.com/adamyala/django-friendship.git"}
 django-rest-swagger = "*"
-model-mommy = "*"
-django-push-notifications = "*"
+model_mommy = "*"
 fcm-django = "*"
 raven = "*"
 factory-boy = "*"
@@ -36,7 +35,7 @@ requests = "*"
 [dev-packages]
 
 "flake8" = "*"
-werkzeug = "*"
+Werkzeug = "*"
 ipython = "*"
 django-extensions = "*"
 freezegun = "*"

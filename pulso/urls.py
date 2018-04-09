@@ -7,12 +7,14 @@ from rest_framework.routers import SimpleRouter
 
 from accounts import views
 from relationships import views as rel_views
-from push_notifications.views import FirebaseDeviceViewSet, NotificationViewSet
+from push_notifications.views import (
+    FirebaseDeviceViewSet, NotificationViewSet, DeviceViewSet
+)
 
 
 router = SimpleRouter()
 router.register(r'users', views.UserViewSet, 'users')
-router.register(r'me/devices', FirebaseDeviceViewSet, 'devices')
+router.register(r'me/devices', DeviceViewSet, 'devices')
 router.register(r'me/notifications', NotificationViewSet, 'notifications')
 
 urlpatterns = [

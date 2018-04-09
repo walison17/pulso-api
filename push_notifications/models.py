@@ -36,15 +36,15 @@ class Device(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
-    device_type = models.CharField(
-        max_length=10,
+    device_type = models.SmallIntegerField(
         choices=DEVICE_TYPES,
         default=ANDROID,
+        db_index=True
     )
     device_model = models.CharField(max_length=100, blank=True)
-    device_id = models.CharField(max_length=150, blank=True, db_index=True)
+    device_id = models.CharField(max_length=150, db_index=True, unique=True)
     one_signal_player_id = models.CharField(
-        max_length=150, blank=True, db_index=True
+        max_length=150, db_index=True, unique=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

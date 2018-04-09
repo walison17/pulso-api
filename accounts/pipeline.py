@@ -10,7 +10,6 @@ def create_user(backend, details, response, user=None, *args, **kwargs):
 
     location = response['location']['location']
     user = User.objects.create_user(
-        facebook_id=response['id'],
         email=response['email'],
         username=response['email'],
         first_name=response['first_name'],
@@ -24,6 +23,7 @@ def create_user(backend, details, response, user=None, *args, **kwargs):
         city=location['city'],
         state=location['state'],
         country=location['country'],
+        facebook_id=response['id'],
         facebook_url=response['link'],
         facebook_friends_ids=[friend['id'] for friend in response['friends']['data']],
     )

@@ -31,12 +31,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'raven.contrib.django.raven_compat',
     'django.contrib.gis',
+
     'rest_framework',
     'rest_framework.authtoken',
     'social_django',
     'fcm_django',
     'django_extensions',
     'notifications',
+
     'accounts',
     'relationships',
     'push_notifications',

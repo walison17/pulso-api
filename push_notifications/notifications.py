@@ -90,7 +90,7 @@ class NewInteractionNotification(Notification):
         return list(devices)
 
 
-class CancellPulsoNotification(Notification):
+class CancelPulsoNotification(Notification):
     notification_type = 'CANCELLATION'
 
     def get_message(self):

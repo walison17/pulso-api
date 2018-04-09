@@ -8,7 +8,9 @@ from rest_framework import status
 
 from fcm_django.models import FCMDevice
 
-from .serializers import FirebaseDeviceSerializer, NotificationSerializer
+from .serializers import (
+    FirebaseDeviceSerializer, NotificationSerializer, DeviceSerializer
+)
 from .models import Device
 
 
@@ -26,6 +28,7 @@ class FirebaseDeviceViewSet(ModelViewSet):
 
 class DeviceViewSet(ModelViewSet):
     permission_classes = (IsAuthenticated, )
+    serializer_class = DeviceSerializer
 
     def get_queryset(self):
         return Device.objects.from_user(self.request.user)
