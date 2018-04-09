@@ -44,12 +44,6 @@ def notify_creator_about_new_interaction(sender, instance, **kwargs):
     notifier.push(notification)
 
 
-def notify_friends_about_new_pulso(sender, instance, created, **kwargs):
-    if created:
-        notification = notifications.FriendCreatePulsoNotification(instance)
-        notifier.push(notification)
-
-
 @receiver(post_save, sender=Comment)
 def save_interaction_on_db(sender, instance, **kwargs):
     pulso_creator = instance.pulso.created_by
