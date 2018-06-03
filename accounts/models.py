@@ -15,8 +15,8 @@ class User(AbstractUser, FirebaseDeviceMixin):
     city = models.CharField(max_length=50, null=True)
     state = models.CharField(max_length=3, null=True)
     country = models.CharField(max_length=20, null=True)
-    photo_url = models.URLField(max_length=150, blank=True, null=True)
-    facebook_url = models.URLField(null=True)
+    photo_url = models.URLField(max_length=250, blank=True, null=True)
+    facebook_url = models.URLField(max_length=500, null=True)
     following = models.ManyToManyField(
         to=settings.AUTH_USER_MODEL,
         through='relationships.Follow',
